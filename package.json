@@ -10,7 +10,7 @@
     "prepublish": "make",
     "test": "make test"
   },
-  "main": "chrome.js",
+  "main": "index.js",
   "devDependencies": {
     "babel": "x",
     "jasmine": "^2.2.1"
