@@ -1,6 +1,6 @@
 {
   "name": "chrome-tool",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Useful functions for creating Chrome apps and extensions",
   "keywords": [ "chrome" ],
   "author": "Jannes Meyer <jannes.meyer@gmail.com>",
