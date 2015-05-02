@@ -1,0 +1,13 @@
+["trigger", "src", {
+	"name": "jsfiles",
+	"append_files": true,
+	"command": [
+		"make"
+	],
+	"expression": ["anyof",
+		["match", "*.js", "wholename"]
+	],
+	"chdir": "..",
+	"stdout": ">watchman.log",
+	"stderr": ">watchman.log"
+}]
