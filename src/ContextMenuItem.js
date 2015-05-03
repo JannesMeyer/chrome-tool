@@ -1,4 +1,5 @@
 import './object-assign';
+import { getString } from '.';
 
 export default class ContextMenuItem {
 	constructor(id, contexts, onclick) {
@@ -6,7 +7,7 @@ export default class ContextMenuItem {
 			id,
 			contexts,
 			onclick,
-			title: Chrome.getString('context_menu_' + id)
+			title: getString('context_menu_' + id)
 		};
 
 		// Bind methods

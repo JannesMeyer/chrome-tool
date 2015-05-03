@@ -1,6 +1,10 @@
+// TODO: use fn.bind instead
+
 /**
  * Renames a synchronous function
  */
-export default function alias(myThis, fn) {
-	return (...myArgs) => fn.apply(myThis, myArgs);
+export default function alias(thisArg, fn) {
+	return function() {
+		return fn.apply(thisArg, arguments);
+	};
 }

@@ -1,4 +1,5 @@
 import dechromeify from './dechromeify';
+import * as Windows from './windows';
 
 // TODO: automatically do the whole chrome.tabs
 var create     = dechromeify(chrome.tabs, chrome.tabs.create);
@@ -10,15 +11,6 @@ var remove     = dechromeify(chrome.tabs, chrome.tabs.remove);
 var update     = dechromeify(chrome.tabs, chrome.tabs.update);
 var duplicate  = dechromeify(chrome.tabs, chrome.tabs.duplicate);
 export { create, get, getCurrent, move, query, remove, update, duplicate };
-
-/**
- * Generator: Iterate backwards over an array
- */
-function* backwards(arr) {
-  for (var i = arr.length - 1; i >= 0; --i) {
-    yield arr[i];
-  }
-}
 
 var isOpera = (navigator.vendor.indexOf('Opera') !== -1);
 /**
@@ -49,32 +41,23 @@ export function getActive() {
  */
 export function show(openerTab, url) {
 	// if (openerTab.url === 'chrome://newtab/' && !openerTab.incognito) {
-	// 	return Promise.all([ Chrome.createTab({ url }), Chrome.removeTabs(openerTab.id) ]);
+	// 	return Promise.all([ create({ url }), remove(openerTab.id) ]);
 	// }
-	return Chrome.createTab({ url, openerTabId: openerTab.id });
+	return create({ url, openerTabId: openerTab.id });
 }
 
 /**
  * Return the number of tabs that are open
  */
 export function count() {
-	return Chrome.queryTabs({ windowType: 'normal' }).then(tabs => tabs.length);
+	return query({ windowType: 'normal' }).then(tabs => tabs.length);
 }
-
-
-
-
-
-
-
-
-
 
 /**
  * Move all highlighted tabs in a window to the left or to the right
  */
 export function moveHighlighted(direction) {
-	Chrome.getLastFocusedWindow({ populate: true }).then(wnd => {
+	Windows.getLastFocused({ populate: true }).then(wnd => {
 		var numTabs = wnd.tabs.length;
 		for (var tab of (direction > 0) ? backwards(wnd.tabs) : wnd.tabs) {
 			// Opera doesn't have highlighted tabs, so we also check for .active
@@ -90,36 +73,48 @@ export function moveHighlighted(direction) {
 				newIndex = (newIndex + direction + numTabs) % numTabs;
 			} while (tab.pinned !== wnd.tabs[newIndex].pinned);
 
-			Chrome.moveTabs(tab.id, { index: newIndex });
+			move(tab.id, { index: newIndex });
 		}
 	});
 }
 
 /**
- * Move tabs from a source to a target window.
- * If targetWindowId is undefined, create new window.
+ * Generator: Iterate backwards over an array
  */
-export function moveToWindow(tabs, targetWindowId, incognito) {
+function* backwards(arr) {
+  for (var i = arr.length - 1; i >= 0; --i) {
+    yield arr[i];
+  }
+}
+
+/**
+ * Create new window
+ */
+export function moveToNewWindow(tabs, incognito) {
 	var tabIds = tabs.map(tab => tab.id);
 	var activeTab = tabs.find(tab => tab.active);
 
-	if (targetWindowId === undefined) {
-		// Create a new window
-		setTimeout(function() {
-			// Use the first tab, so that we don't get a NTP
-			Chrome.createWindow({ tabId: tabIds.shift(), focused: true, incognito }).then(wnd => {
-				if (tabIds.length > 0) {
-					Chrome.moveTabs(tabIds, { windowId: wnd.id, index: -1 }).then(() => {
-						Chrome.updateTab(activeTab.id, { active: true });
-					});
-				}
-			});
-		}, 0);
-	} else {
-		// Use existing window
-		Chrome.updateWindow(targetWindowId, { focused: true });
-		Chrome.moveTabs(tabIds, { windowId: targetWindowId, index: -1 }).then(() => {
-			Chrome.updateTab(activeTab.id, { active: true });
+	setTimeout(function() {
+		// Use the first tab, so that we don't get a NTP
+		Windows.create({ tabId: tabIds.shift(), focused: true, incognito }).then(wnd => {
+			if (tabIds.length > 0) {
+				move(tabIds, { windowId: wnd.id, index: -1 }).then(() => {
+					update(activeTab.id, { active: true });
+				});
+			}
 		});
-	}
+	}, 0);
+}
+
+/**
+ * Move tabs to a target window
+ */
+export function moveToWindow(tabs, targetWindowId) {
+	var tabIds = tabs.map(tab => tab.id);
+	var activeTab = tabs.find(tab => tab.active);
+
+	Windows.update(targetWindowId, { focused: true });
+	move(tabIds, { windowId: targetWindowId, index: -1 }).then(() => {
+		update(activeTab.id, { active: true });
+	});
 }

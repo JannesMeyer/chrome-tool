@@ -8,6 +8,6 @@
 		["match", "*.js", "wholename"]
 	],
 	"chdir": "..",
-	"stdout": ">watchman.log",
-	"stderr": ">watchman.log"
+	"stdout": ">build.log",
+	"stderr": ">build.log"
 }]

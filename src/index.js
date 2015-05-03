@@ -5,30 +5,24 @@ import alias from './alias';
 var messageHandlers = new Map();
 var commandHandlers = new Map();
 
-var sendMessage = dechromeify(chrome.runtime, chrome.runtime.sendMessage, { responseErrors: true });
+var _sendMessage      = dechromeify(chrome.runtime, chrome.runtime.sendMessage, { responseErrors: true });
+var getExtensionInfo = dechromeify(chrome.management, chrome.management.getSelf);
+var getURL           = alias(chrome.runtime, chrome.runtime.getURL);
+var onBrowserAction  = alias(chrome.browserAction.onClicked, chrome.browserAction.onClicked.addListener);
 
-// Runtime
-exports.getURL = alias(chrome.runtime, chrome.runtime.getURL);
+export { getExtensionInfo, getURL, onBrowserAction };
 
-// Management
-exports.getExtensionInfo = dechromeify(chrome.management, chrome.management.getSelf);
-
-// i18n
-exports.getString = function(name, substitution) {
-	if (substitution !== undefined) {
-		if (typeof substitution === 'number' && substitution > 1) {
-			return chrome.i18n.getMessage(name + 's', [ substitution ]);
-		}
-		return chrome.i18n.getMessage(name, [ substitution ]);
-	}
-	return chrome.i18n.getMessage(name);
-};
-
-// Message passing
-exports.sendMessage = function(operation, message) {
-	return sendMessage(Object.assign({ _chrome_operation: operation }, message));
+/**
+ * Send a message to another part of the extension
+ */
+export function sendMessage(operation, message) {
+	return _sendMessage(Object.assign({ _chrome_operation: operation }, message));
 }
-exports.onMessage = function(operation, handler) {
+
+/**
+ * Add a message handler
+ */
+export function onMessage(operation, handler) {
 	if (messageHandlers.size === 0) {
 		chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			var operation = message._chrome_operation;
@@ -39,13 +33,12 @@ exports.onMessage = function(operation, handler) {
 		});
 	}
 	messageHandlers.set(operation, handler);
-};
+}
 
-// User interface
-exports.onBrowserAction = function(handler) {
-	chrome.browserAction.onClicked.addListener(handler);
-};
-exports.onCommand = function(command, handler) {
+/**
+ * Add a command handler
+ */
+export function onCommand(command, handler) {
 	if (commandHandlers.size === 0) {
 		chrome.commands.onCommand.addListener(command => {
 			if (commandHandlers.has(command)) {
@@ -54,4 +47,17 @@ exports.onCommand = function(command, handler) {
 		});
 	}
 	commandHandlers.set(command, handler);
-};
+}
+
+/**
+ * Returns a translated string
+ */
+export function getString(name, substitution) {
+	if (substitution !== undefined) {
+		if (typeof substitution === 'number' && substitution > 1) {
+			return chrome.i18n.getMessage(name + 's', [ substitution ]);
+		}
+		return chrome.i18n.getMessage(name, [ substitution ]);
+	}
+	return chrome.i18n.getMessage(name);
+}

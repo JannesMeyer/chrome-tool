@@ -19,10 +19,9 @@ node_modules:
 watch:
 	@$(WATCHMAN) -n watch src > /dev/null
 	@$(WATCHMAN) -nj < watchman.json > /dev/null
-	@sleep 0.1
-	@tail -n +0 -f watchman.log
+	@tail -f build.log
 
 clean:
-	@rm -r node_modules $(TARGET_FILES)
+	@rm *.js
 
 .PHONY: all test watch clean
