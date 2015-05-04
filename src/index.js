@@ -5,6 +5,7 @@ import * as Preferences from './preferences';
 import ContextMenuItem from './ContextMenuItem';
 import * as BrowserAction from './browser-action';
 import * as Runtime from './runtime';
+import * as Commands from './commands';
 
 export { getString } from './i18n';
 export { onCommand } from './commands';
