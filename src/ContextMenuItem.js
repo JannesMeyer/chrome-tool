@@ -1,5 +1,5 @@
 import './object-assign';
-import { getString } from '.';
+import { getString } from './i18n';
 
 export default class ContextMenuItem {
 	constructor(id, contexts, onclick) {

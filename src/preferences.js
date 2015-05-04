@@ -1,11 +1,9 @@
-import dechromeify from './dechromeify';
+import { dechromeifyAll } from './dechromeify';
 
-var defaults = null;
+var defaults;
 
-var _get  = dechromeify(chrome.storage.sync, chrome.storage.sync.get);
-var set   = dechromeify(chrome.storage.sync, chrome.storage.sync.set);
-var clear = dechromeify(chrome.storage.sync, chrome.storage.sync.clear);
-export { set, clear };
+var SyncStorage = dechromeifyAll(chrome.storage.sync);
+export var { set, clear } = SyncStorage;
 
 /**
  * Create request object with default values for the keys
@@ -14,7 +12,7 @@ export { set, clear };
  */
 function objectWithDefaults(keys) {
 	if (!Array.isArray(keys)) {
-		throw new TypeError('First argument is not an array');
+		throw new TypeError("First argument is not an array");
 	}
 
 	var request = {};
@@ -44,7 +42,7 @@ export function setDefaults(newDefaults) {
  * @returns a promise that resolves to the vale
  */
 export function get(key) {
-	return _get(objectWithDefaults([ key ])).then(items => items[key]);
+	return SyncStorage.get(objectWithDefaults([ key ])).then(items => items[key]);
 }
 
 /**
@@ -54,5 +52,5 @@ export function get(key) {
  * @returns a promise that resolves to an object with the items
  */
 export function getMany(keys) {
-	return _get((keys) ? objectWithDefaults(keys) : defaults);
+	return SyncStorage.get((keys) ? objectWithDefaults(keys) : defaults);
 }

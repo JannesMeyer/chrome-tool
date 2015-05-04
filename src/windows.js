@@ -1,14 +1,15 @@
-import dechromeify from './dechromeify';
+import { dechromeifyAll } from './dechromeify';
+import * as Tabs from './tabs';
 
-// TODO: automatically convert the module
-var create         = dechromeify(chrome.windows, chrome.windows.create);
-var get            = dechromeify(chrome.windows, chrome.windows.get);
-var getAll         = dechromeify(chrome.windows, chrome.windows.getAll);
-var getLastFocused = dechromeify(chrome.windows, chrome.windows.getLastFocused);
-var update         = dechromeify(chrome.windows, chrome.windows.update);
-var remove         = dechromeify(chrome.windows, chrome.windows.remove);
-
-export { create, get, getAll, getLastFocused, update, remove };
+export var {
+	create,
+	get,
+	getAll,
+	getCurrent,
+	getLastFocused,
+	remove,
+	update
+} = dechromeifyAll(chrome.windows);
 
 /**
  * Opens all windows/tabs that are passed into this function.
@@ -24,12 +25,12 @@ export function open(windows, reuseThreshold = 1) {
 
 		// Open new windows
 		windows.forEach(urls => {
-			Windows.create({ url: urls, focused: false });
+			create({ url: urls, focused: false });
 		});
 
 		// Restore focus and open new tabs
 		if (newTabs.length > 0) {
-			Windows.update(wnd.id, { focused: true });
+			update(wnd.id, { focused: true });
 		}
 		newTabs.forEach(url => {
 			Tabs.create({ windowId: wnd.id, url, active: false });

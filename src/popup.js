@@ -1,4 +1,4 @@
-import { getString, getURL, onMessage } from '.';
+import { getURL, onMessage } from './runtime';
 import { create as createWindow } from './windows';
 
 var popupResponse;

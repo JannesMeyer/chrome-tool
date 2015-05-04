@@ -1,18 +1,34 @@
-import dechromeify from './dechromeify';
+import { dechromeifyAll } from './dechromeify';
 import * as Windows from './windows';
 
-// TODO: automatically do the whole chrome.tabs
-var create     = dechromeify(chrome.tabs, chrome.tabs.create);
-var get        = dechromeify(chrome.tabs, chrome.tabs.get);
-var getCurrent = dechromeify(chrome.tabs, chrome.tabs.getCurrent);
-var move       = dechromeify(chrome.tabs, chrome.tabs.move);
-var query      = dechromeify(chrome.tabs, chrome.tabs.query);
-var remove     = dechromeify(chrome.tabs, chrome.tabs.remove);
-var update     = dechromeify(chrome.tabs, chrome.tabs.update);
-var duplicate  = dechromeify(chrome.tabs, chrome.tabs.duplicate);
-export { create, get, getCurrent, move, query, remove, update, duplicate };
+export var {
+	captureVisibleTab,
+	connect,
+	create,
+	detectLanguage,
+	duplicate,
+	executeScript,
+	get,
+	getAllInWindow,
+	getCurrent,
+	getSelected,
+	getZoom,
+	getZoomSettings,
+	highlight,
+	insertCSS,
+	move,
+	query,
+	reload,
+	remove,
+	sendMessage,
+	sendRequest,
+	setZoom,
+	setZoomSettings,
+	update
+} = dechromeifyAll(chrome.tabs);
 
 var isOpera = (navigator.vendor.indexOf('Opera') !== -1);
+
 /**
  * Gets all highlighted tabs in the last focused window.
  * This function is guaranteed to at least return the active
@@ -41,7 +57,7 @@ export function getActive() {
  */
 export function open(openerTab, url) {
 	// if (openerTab.url === 'chrome://newtab/' && !openerTab.incognito) {
-	// 	return Promise.all([ create({ url }), remove(openerTab.id) ]);
+	//  return Promise.all([ create({ url }), remove(openerTab.id) ]);
 	// }
 	return create({ url, openerTabId: openerTab.id });
 }
@@ -82,11 +98,11 @@ export function moveHighlighted(direction) {
 /**
  * Generator: Iterate backwards over an array
  */
-function* backwards(arr) {
-  for (var i = arr.length - 1; i >= 0; --i) {
-    yield arr[i];
-  }
-}
+// function* backwards(arr) {
+// 	for (var i = arr.length - 1; i >= 0; --i) {
+// 		yield arr[i];
+// 	}
+// }
 
 /**
  * Create new window
