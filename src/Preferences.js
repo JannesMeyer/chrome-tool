@@ -29,10 +29,14 @@ export default class Preferences {
 		return Storage.get(null);
 	}
 
+	/**
+	 * Sets multiple preference values
+	 */
+	set(items) {
+		return Storage.set(items);
+	}
+
 }
-
-
-
 
 
 

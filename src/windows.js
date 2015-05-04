@@ -25,7 +25,7 @@ export var {
  * @param windows: 2-dimensional array of windows and URLs
  */
 export function open(windows, reuseThreshold = 1) {
-	Windows.getLastFocused({ populate: true }).then(wnd => {
+	getLastFocused({ populate: true }).then(wnd => {
 		// New tabs to create in the CURRENT window
 		var newTabs = (wnd.tabs.length <= reuseThreshold) ? windows.shift() : [];
 
