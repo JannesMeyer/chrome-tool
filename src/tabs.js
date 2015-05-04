@@ -39,7 +39,7 @@ export function getActive() {
  * Show a URL by either opening it in a new tab or by
  * navigating to it in another tab if it contains the NTP.
  */
-export function show(openerTab, url) {
+export function open(openerTab, url) {
 	// if (openerTab.url === 'chrome://newtab/' && !openerTab.incognito) {
 	// 	return Promise.all([ create({ url }), remove(openerTab.id) ]);
 	// }
@@ -59,6 +59,7 @@ export function count() {
 export function moveHighlighted(direction) {
 	Windows.getLastFocused({ populate: true }).then(wnd => {
 		var numTabs = wnd.tabs.length;
+
 		for (var tab of (direction > 0) ? backwards(wnd.tabs) : wnd.tabs) {
 			// Opera doesn't have highlighted tabs, so we also check for .active
 			if (!tab.highlighted && !tab.active) {
@@ -116,5 +117,29 @@ export function moveToWindow(tabs, targetWindowId) {
 	Windows.update(targetWindowId, { focused: true });
 	move(tabIds, { windowId: targetWindowId, index: -1 }).then(() => {
 		update(activeTab.id, { active: true });
+	});
+}
+
+/**
+ * Close all tabs except the current tab
+ */
+export function closeOthers() {
+	Promise.all([
+		getCurrent(),
+		Windows.getAll({ populate: true })
+	]).then((sourceTab, windows) => {
+		// Identify the window that hosts the sourceTab
+		var sourceWindow;
+		for (var wnd of windows) {
+			if (wnd.id === sourceTab.windowId) {
+				sourceWindow = wnd;
+			} else {
+				// Close other windows
+				Windows.remove(wnd.id);
+			}
+		}
+		// Close other tabs
+		var tabIds = sourceWindow.tabs.map(t => t.id).filter(id => id !== sourceTab.id);
+		remove(tabIds);
 	});
 }

@@ -2,7 +2,7 @@ import dechromeify from './dechromeify';
 
 var defaults = null;
 
-var get   = dechromeify(chrome.storage.sync, chrome.storage.sync.get);
+var _get  = dechromeify(chrome.storage.sync, chrome.storage.sync.get);
 var set   = dechromeify(chrome.storage.sync, chrome.storage.sync.set);
 var clear = dechromeify(chrome.storage.sync, chrome.storage.sync.clear);
 export { set, clear };
@@ -44,7 +44,7 @@ export function setDefaults(newDefaults) {
  * @returns a promise that resolves to the vale
  */
 export function get(key) {
-	return get(objectWithDefaults([ key ])).then(items => items[key]);
+	return _get(objectWithDefaults([ key ])).then(items => items[key]);
 }
 
 /**
@@ -54,5 +54,5 @@ export function get(key) {
  * @returns a promise that resolves to an object with the items
  */
 export function getMany(keys) {
-	return get((keys) ? objectWithDefaults(keys) : defaults);
+	return _get((keys) ? objectWithDefaults(keys) : defaults);
 }
