@@ -1,14 +1,13 @@
 import './object-assign';
 import dechromeify from './dechromeify';
-import alias from './alias';
 
 var messageHandlers = new Map();
 var commandHandlers = new Map();
 
-var _sendMessage      = dechromeify(chrome.runtime, chrome.runtime.sendMessage, { responseErrors: true });
+var _sendMessage     = dechromeify(chrome.runtime, chrome.runtime.sendMessage, { responseErrors: true });
 var getExtensionInfo = dechromeify(chrome.management, chrome.management.getSelf);
-var getURL           = alias(chrome.runtime, chrome.runtime.getURL);
-var onBrowserAction  = alias(chrome.browserAction.onClicked, chrome.browserAction.onClicked.addListener);
+var getURL           = chrome.runtime.getURL.bind(chrome.runtime);
+var onBrowserAction  = chrome.browserAction.onClicked.addListener.bind(chrome.browserAction.onClicked);
 
 export { getExtensionInfo, getURL, onBrowserAction };
 
