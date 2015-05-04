@@ -64,7 +64,7 @@ export function sendMessage(operation, message) {
 /**
  * Collective listener
  */
-function listener(message, sender, sendResponse) {
+function globalHandler(message, sender, sendResponse) {
 	var listener = listeners.get(message._chrome_operation);
 	if (listener) {
 		listener(message, sender, sendResponse);
@@ -78,7 +78,7 @@ function listener(message, sender, sendResponse) {
  */
 export function onMessage(operation, handler) {
 	if (listeners.size === 0) {
-		chrome.runtime.onMessage.addListener(listener);
+		chrome.runtime.onMessage.addListener(globalHandler);
 	}
 	listeners.set(operation, handler);
 }

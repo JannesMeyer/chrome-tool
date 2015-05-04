@@ -1,33 +1,35 @@
-import { getURL, onMessage } from './runtime';
-import { create as createWindow } from './windows';
-
-var popupResponse;
-
-// TODO: make this a class
+import * as Runtime from './runtime';
+import * as Windows from './windows';
 
 /**
- * Open a popup. There should only be one at a time.
+ * Opens a popup. At the moment only one at a time is supported.
  */
-export function create({ url, params, width, height, parent }) {
-	if (popupResponse) {
-		console.warn("create: The previous popup wasn't closed properly");
-	}
-	popupResponse = Promise.defer();
-	var left = Math.round(parent.left + (parent.width - width) / 2);
-	var top = Math.round(parent.top + (parent.height - height) / 3);
-	url = getURL(url);
-	if (params) {
-		url += params;
-	}
-	createWindow({ type: 'popup', url, width, height, left, top });
-	return popupResponse.promise;
-}
+export default class Popup {
 
-onMessage('popup_close', message => {
-	if (!popupResponse) {
-		console.warn("Popup returned twice");
-		return;
+	constructor({ url, params, width, height, parent }) {
+		this.deferred = Promise.defer();
+		this.options = {
+			type: 'popup',
+			url: Runtime.getURL(url),
+			left: Math.round(parent.left + (parent.width - width) / 2),
+			top: Math.round(parent.top + (parent.height - height) / 3),
+			width,
+			height
+		}
+		if (params) {
+			this.options.url += params;
+		}
+
+		// Register/overwrite return handler
+		Runtime.onMessage('popup_close', msg => {
+			console.log('Popup return value:', msg);
+			this.deferred.resolve(msg);
+		});
 	}
-	popupResponse.resolve(message);
-	popupResponse = null;
-});
+
+	show() {
+		Windows.create(this.options);
+		return this.deferred.promise;
+	}
+
+}

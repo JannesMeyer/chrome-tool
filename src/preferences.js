@@ -1,63 +1,55 @@
-/*
- * Documentation:
- * https://developer.chrome.com/extensions/storage#toc
- */
+import * as Storage from './storage-sync';
 
-import { dechromeifyAll } from './dechromeify';
+export default class Preferences {
 
-var defaults;
+	constructor(defaults) {
+		this.defaults = defaults;
+	}
 
-var SyncStorage = dechromeifyAll(chrome.storage.sync);
-export var { set, clear } = SyncStorage;
+	/**
+	 * Requests one ore more preference values and
+	 * returns the value itself or an object containing
+	 * all keys and values
+	 */
+	get() {
+		var results = Storage.get(filterObject(this.defaults, arguments))
 
-// TODO: make Preferences a class
+		// Return a single value or an array
+		if (arguments.length === 1) {
+			return results.then(obj => obj[arguments[0]]);
+		} else {
+			return results;
+		}
+	}
+
+	/**
+	 * Requests all preferences values
+	 */
+	getAll() {
+		return Storage.get(null);
+	}
+
+}
+
+
+
+
+
+
+
 
 /**
  * Create request object with default values for the keys
  *
  * @param keys: Array of String
  */
-function objectWithDefaults(keys) {
-	if (!Array.isArray(keys)) {
-		throw new TypeError("First argument is not an array");
-	}
-
+function filterObject(obj, keys) {
 	var request = {};
 	for (var key of keys) {
-		if (!defaults.hasOwnProperty(key)) {
+		if (!obj.hasOwnProperty(key)) {
 			throw new Error(`No default value for '${key}' found`);
 		}
-		request[key] = defaults[key];
+		request[key] = obj[key];
 	}
 	return request;
-}
-
-/**
- * Inject default values
- */
-export function setDefaults(newDefaults) {
-	if (defaults) {
-		console.warn('Setting the defaults more than once');
-	}
-	defaults = newDefaults;
-}
-
-/**
- * Request one preference value
- *
- * @param key: String
- * @returns a promise that resolves to the vale
- */
-export function get(key) {
-	return SyncStorage.get(objectWithDefaults([ key ])).then(items => items[key]);
-}
-
-/**
- * Request several preference values
- *
- * @param keys: Array of String
- * @returns a promise that resolves to an object with the items
- */
-export function getMany(keys) {
-	return SyncStorage.get((keys) ? objectWithDefaults(keys) : defaults);
 }

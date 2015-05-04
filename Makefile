@@ -21,7 +21,10 @@ watch:
 	@$(WATCHMAN) -nj < watchman.json > /dev/null
 	@tail -fn0 build.log
 
+watch2:
+	@$(BABEL) src -wd .
+
 clean:
 	@rm *.js
 
-.PHONY: all test watch clean
+.PHONY: all test watch watch2 clean

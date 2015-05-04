@@ -8,7 +8,7 @@ var listeners = new Map();
 /**
  * Collective listener
  */
-function listener(cmd) {
+function globalHandler(command) {
 	var listener = listeners.get(command);
 	if (listener) {
 		listener();
@@ -22,7 +22,7 @@ function listener(cmd) {
  */
 export function onCommand(command, listener) {
 	if (listeners.size === 0) {
-		chrome.commands.onCommand.addListener(listener);
+		chrome.commands.onCommand.addListener(globalHandler);
 	}
 	listeners.set(command, listener);
 }
