@@ -1,9 +1,9 @@
-BABEL=./node_modules/.bin/babel
-JASMINE=./node_modules/.bin/jasmine
-WATCHMAN=watchman
+BABEL = ./node_modules/.bin/babel
+JASMINE = ./node_modules/.bin/jasmine
+WATCHMAN = watchman
 
-SRC_FILES=$(wildcard src/*.js)
-TARGET_FILES=$(patsubst src/%.js, %.js, $(SRC_FILES))
+SRC_FILES = $(wildcard src/*.js)
+TARGET_FILES = $(patsubst src/%.js, %.js, $(SRC_FILES))
 
 all: node_modules $(TARGET_FILES)
 
@@ -19,7 +19,7 @@ node_modules:
 watch:
 	@$(WATCHMAN) -n watch src > /dev/null
 	@$(WATCHMAN) -nj < watchman.json > /dev/null
-	@tail -f build.log
+	@tail -fn0 build.log
 
 clean:
 	@rm *.js
