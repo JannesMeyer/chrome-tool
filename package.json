@@ -1,8 +1,10 @@
 {
   "name": "chrome-tool",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Useful functions for creating Chrome apps and extensions",
-  "keywords": [ "chrome" ],
+  "keywords": [
+    "chrome"
+  ],
   "author": "Jannes Meyer <jannes.meyer@gmail.com>",
   "license": "GPLv3",
   "repository": "JannesMeyer/chrome-tool",
@@ -10,7 +12,10 @@
     "prepublish": "make",
     "test": "make test"
   },
-  "main": "index.js",
+  "main": "chrome.js",
+  "dependencies": {
+    "object.assign": "^1.1.1"
+  },
   "devDependencies": {
     "babel": "x",
     "jasmine": "^2.2.1"

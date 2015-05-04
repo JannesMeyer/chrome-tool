@@ -3,6 +3,8 @@ import { create as createWindow } from './windows';
 
 var popupResponse;
 
+// TODO: make this a class
+
 /**
  * Open a popup. There should only be one at a time.
  */

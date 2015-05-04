@@ -2,30 +2,38 @@ import { dechromeifyAll } from './dechromeify';
 import * as Windows from './windows';
 
 export var {
-	captureVisibleTab,
-	connect,
-	create,
-	detectLanguage,
-	duplicate,
-	executeScript,
+	// async
 	get,
-	getAllInWindow,
 	getCurrent,
+	sendRequest,
+	sendMessage,
 	getSelected,
-	getZoom,
-	getZoomSettings,
-	highlight,
-	insertCSS,
-	move,
+	getAllInWindow,
+	create,
+	duplicate,
 	query,
+	highlight,
+	update,
+	move,
 	reload,
 	remove,
-	sendMessage,
-	sendRequest,
+	detectLanguage,
+	captureVisibleTab,
+	executeScript,
+	insertCSS,
 	setZoom,
+	getZoom,
 	setZoomSettings,
-	update
-} = dechromeifyAll(chrome.tabs);
+	getZoomSettings,
+
+	// sync
+	connect
+} = dechromeifyAll(chrome.tabs, [
+	'connect'
+]);
+
+
+
 
 var isOpera = (navigator.vendor.indexOf('Opera') !== -1);
 

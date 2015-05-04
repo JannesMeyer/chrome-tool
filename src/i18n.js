@@ -1,3 +1,8 @@
+/*
+ * Documentation:
+ * https://developer.chrome.com/extensions/i18n#toc
+ */
+
 /**
  * Returns a translated string
  */

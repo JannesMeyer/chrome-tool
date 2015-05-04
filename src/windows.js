@@ -1,14 +1,20 @@
+/*
+ * Documentation:
+ * https://developer.chrome.com/extensions/windows#toc
+ */
+
 import { dechromeifyAll } from './dechromeify';
 import * as Tabs from './tabs';
 
 export var {
-	create,
+	// async
 	get,
-	getAll,
 	getCurrent,
 	getLastFocused,
-	remove,
-	update
+	getAll,
+	create,
+	update,
+	remove
 } = dechromeifyAll(chrome.windows);
 
 /**

@@ -19,9 +19,3 @@ export function cloneKeys(keys, obj) {
 	}
 	return result;
 }
-
-// export function prop(key) {
-// 	return function(obj) {
-// 		return obj[key];
-// 	};
-// }

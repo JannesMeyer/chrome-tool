@@ -1,9 +1,16 @@
+/*
+ * Documentation:
+ * https://developer.chrome.com/extensions/storage#toc
+ */
+
 import { dechromeifyAll } from './dechromeify';
 
 var defaults;
 
 var SyncStorage = dechromeifyAll(chrome.storage.sync);
 export var { set, clear } = SyncStorage;
+
+// TODO: make Preferences a class
 
 /**
  * Create request object with default values for the keys

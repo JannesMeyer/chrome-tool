@@ -1,19 +1,16 @@
 /**
  * Convert an async Chrome function into one that returns a Promise
  */
-export default function dechromeify(obj, key, opts = {}) {
+export default function dechromeify(obj, key) {
 	return function dechromeified() {
 		var deferred = Promise.defer();
 
 		// Add callback as last argument
 		Array.prototype.push.call(arguments, function callback() {
-			var firstArg = arguments[0];
 			if (chrome.runtime.lastError) {
 				deferred.reject(chrome.runtime.lastError);
-			} else if (opts.responseErrors && firstArg !== undefined && firstArg.error !== undefined) {
-				deferred.reject(firstArg.error);
 			} else {
-				deferred.resolve(firstArg);
+				deferred.resolve(arguments[0]);
 			}
 		});
 
@@ -27,16 +24,21 @@ export default function dechromeify(obj, key, opts = {}) {
 /**
  * Dechromeify whole objects
  */
-export function dechromeifyAll(obj, keys) {
-	keys = keys || Object.keys(obj);
-	var target = Object.create(null);
-	for (var key of keys) {
-		if (typeof obj[key] === 'function') {
-			target[key] = dechromeify(obj, key);
+export function dechromeifyAll(obj, sync) {
+	var target = {};
+
+	for (var key of Object.keys(obj)) {
+		var prop = obj[key];
+		if (typeof prop === 'function') {
+			if (sync && sync.indexOf(key) !== -1) {
+				target[key] = prop.bind(obj);
+			} else {
+				target[key] = dechromeify(obj, key);
+			}
+		} else if (prop instanceof chrome.Event) {
+			target[key] = prop.addListener.bind(prop);
 		}
-		// else if (obj[key] instanceof chrome.Event) {
-		// 	target[key] = dechromeifyAll(...);
-		// }
 	}
+
 	return target;
 }

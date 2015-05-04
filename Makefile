@@ -14,7 +14,7 @@ node_modules:
 	npm install
 
 %.js:: src/%.js
-	$(BABEL) -o $@ $<
+	$(BABEL) $< -o $@
 
 watch:
 	@$(WATCHMAN) -n watch src > /dev/null
