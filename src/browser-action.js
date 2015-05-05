@@ -6,27 +6,27 @@
 import { dechromeifyAll } from './dechromeify';
 
 export var {
-	// async
-	getTitle,
-	setIcon,
-	getPopup,
-	getBadgeText,
-	getBadgeBackgroundColor,
+  // async
+  getTitle,
+  setIcon,
+  getPopup,
+  getBadgeText,
+  getBadgeBackgroundColor,
 
-	// sync
-	setTitle,
-	setPopup,
-	setBadgeText,
-	setBadgeBackgroundColor,
-	enable,
-	disable
+  // sync
+  setTitle,
+  setPopup,
+  setBadgeText,
+  setBadgeBackgroundColor,
+  enable,
+  disable
 } = dechromeifyAll(chrome.browserAction, [
-	'setTitle',
-	'setPopup',
-	'setBadgeText',
-	'setBadgeBackgroundColor',
-	'enable',
-	'disable'
+  'setTitle',
+  'setPopup',
+  'setBadgeText',
+  'setBadgeBackgroundColor',
+  'enable',
+  'disable'
 ]);
 
 // Events

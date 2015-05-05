@@ -9,10 +9,10 @@ var listeners = new Map();
  * Collective listener
  */
 function globalHandler(command) {
-	var listener = listeners.get(command);
-	if (listener) {
-		listener();
-	}
+  var listener = listeners.get(command);
+  if (listener) {
+    listener();
+  }
 }
 
 /**
@@ -21,8 +21,8 @@ function globalHandler(command) {
  *   onCommand('command name', null)
  */
 export function onCommand(command, listener) {
-	if (listeners.size === 0) {
-		chrome.commands.onCommand.addListener(globalHandler);
-	}
-	listeners.set(command, listener);
+  if (listeners.size === 0) {
+    chrome.commands.onCommand.addListener(globalHandler);
+  }
+  listeners.set(command, listener);
 }

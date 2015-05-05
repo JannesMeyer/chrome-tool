@@ -7,14 +7,14 @@ import { dechromeifyAll } from './dechromeify';
 import * as Tabs from './tabs';
 
 export var {
-	// async
-	get,
-	getCurrent,
-	getLastFocused,
-	getAll,
-	create,
-	update,
-	remove
+  // async
+  get,
+  getCurrent,
+  getLastFocused,
+  getAll,
+  create,
+  update,
+  remove
 } = dechromeifyAll(chrome.windows);
 
 /**
@@ -25,21 +25,21 @@ export var {
  * @param windows: 2-dimensional array of windows and URLs
  */
 export function open(windows, reuseThreshold = 1) {
-	getLastFocused({ populate: true }).then(wnd => {
-		// New tabs to create in the CURRENT window
-		var newTabs = (wnd.tabs.length <= reuseThreshold) ? windows.shift() : [];
+  getLastFocused({ populate: true }).then(wnd => {
+    // New tabs to create in the CURRENT window
+    var newTabs = (wnd.tabs.length <= reuseThreshold) ? windows.shift() : [];
 
-		// Open new windows
-		windows.forEach(urls => {
-			create({ url: urls, focused: false });
-		});
+    // Open new windows
+    windows.forEach(urls => {
+      create({ url: urls, focused: false });
+    });
 
-		// Restore focus and open new tabs
-		if (newTabs.length > 0) {
-			update(wnd.id, { focused: true });
-		}
-		newTabs.forEach(url => {
-			Tabs.create({ windowId: wnd.id, url, active: false });
-		});
-	});
+    // Restore focus and open new tabs
+    if (newTabs.length > 0) {
+      update(wnd.id, { focused: true });
+    }
+    newTabs.forEach(url => {
+      Tabs.create({ windowId: wnd.id, url, active: false });
+    });
+  });
 }

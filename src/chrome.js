@@ -9,15 +9,15 @@ import Popup from './Popup';
 import Preferences from './Preferences';
 
 export {
-	BrowserAction,
-	Commands,
-	Runtime,
-	Tabs,
-	Windows,
+  BrowserAction,
+  Commands,
+  Runtime,
+  Tabs,
+  Windows,
 
-	ContextMenuItem,
-	Popup,
-	Preferences
+  ContextMenuItem,
+  Popup,
+  Preferences
 };
 
 export { getString } from './i18n';
