@@ -1,6 +1,6 @@
 {
   "name": "chrome-tool",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Useful functions for creating Chrome apps and extensions",
   "keywords": [
     "chrome"
@@ -14,7 +14,7 @@
   },
   "main": "index.js",
   "dependencies": {
-    "object.assign": "^1.1.1"
+    "object.assign": "^2.0.1"
   },
   "devDependencies": {
     "babel": "x",
