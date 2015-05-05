@@ -11,12 +11,13 @@ export default class Preferences {
    * returns the value itself or an object containing
    * all keys and values
    */
-  get() {
-    var results = Storage.get(filterObject(this.defaults, arguments))
+  get(...keys) {
+    var defaults = filterObject(containedIn(keys), this.defaults);
+    var results = Storage.get(defaults);
 
-    // Return a single value or an array
-    if (arguments.length === 1) {
-      return results.then(obj => obj[arguments[0]]);
+    // Return either a single value or an array
+    if (keys.length === 1) {
+      return results.then(obj => obj[keys[0]]);
     } else {
       return results;
     }
@@ -38,45 +39,23 @@ export default class Preferences {
 
 }
 
-
-
-
-
 /**
- * Create request object with default values for the keys
- *
- * @param keys: Array of String
+ * Filters an object (works like Array.prototype.filter)
  */
-function filterObject(obj, keys) {
-  var request = {};
-  for (var key of keys) {
-    if (!obj.hasOwnProperty(key)) {
-      throw new Error(`No default value for '${key}' found`);
-    }
-    request[key] = obj[key];
-  }
-  return request;
+function filterObject(fn, obj) {
+  var result = {};
+  Object.keys(obj).filter(fn).forEach(key => {
+    result[key] = obj[key];
+  });
+  return result;
 }
 
-
 /**
- * Select keys from an object
- *
- * @param keys Array
+ * Returns a function that will check if the value is contained
+ * in the array
  */
-export function cloneKeys(keys, obj) {
-  if (!Array.isArray(keys)) {
-    throw new TypeError("First argument is not an array");
-  }
-  if (obj === undefined || obj === null) {
-    throw new TypeError("Second argument is not defined");
-  }
-  var result = {};
-  for (var k of keys) {
-    if (!obj.hasOwnProperty(k)) {
-      throw new Error("Second argument does not have the property " + k);
-    }
-    result[k] = obj[k];
-  }
-  return result;
+function containedIn(arr) {
+  return function(value) {
+    return (arr.indexOf(value) !== -1);
+  };
 }
