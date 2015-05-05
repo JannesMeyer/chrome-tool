@@ -82,36 +82,29 @@ export function count() {
  */
 export function moveHighlighted(direction) {
   Windows.getLastFocused({ populate: true }).then(wnd => {
-    var numTabs = wnd.tabs.length;
+    // Opera reports all tabs as not highlighted, even the active one
+    var highlighted = wnd.tabs.filter(t => t.highlighted || t.active);
+    var tabs = wnd.tabs;
 
-    // TODO: fix backwards iteration
-    for (var tab of (direction > 0) ? backwards(wnd.tabs) : wnd.tabs) {
-      // Opera doesn't have highlighted tabs, so we also check for .active
-      if (!tab.highlighted && !tab.active) {
-        continue;
-      }
+    var backwards = (direction > 0);
+    var i = (backwards ? highlighted.length - 1 : 0);
+    while (0 <= i && i < highlighted.length) {
+      var tab = highlighted[i];
 
-      // TODO: make this more efficient with many tabs
-      var newIndex = tab.index;
+      var index = tab.index;
       do {
-        // Moving pinned tabs into non-pinned tabs (and vice-versa) is impossible,
-        // so we have to skip those indexes
-        newIndex = (newIndex + direction + numTabs) % numTabs;
-      } while (tab.pinned !== wnd.tabs[newIndex].pinned);
+        index = (tabs.length + index + direction) % tabs.length;
+      } while (tab.pinned !== tabs[index].pinned);
+      move(tab.id, { index });
 
-      move(tab.id, { index: newIndex });
+      if (backwards) {
+        --i;
+      } else {
+        ++i;
+      }
     }
   });
 }
-
-/**
- * Generator: Iterate backwards over an array
- */
-// function* backwards(arr) {
-//  for (var i = arr.length - 1; i >= 0; --i) {
-//    yield arr[i];
-//  }
-// }
 
 /**
  * Create new window
