@@ -43,7 +43,6 @@ var isOpera = (navigator.vendor.indexOf('Opera') !== -1);
  * tab of that window.
  */
 export function getHighlighted() {
-  // TODO: file a bug report about this
   // Opera doesn't have highlighted tabs, so we have to customize the query
   if (isOpera) {
     return query({ lastFocusedWindow: true, active: true });
@@ -81,29 +80,44 @@ export function count() {
  * Move all highlighted tabs in a window to the left or to the right
  */
 export function moveHighlighted(direction) {
+  if (direction === 0) {
+    throw new TypeError("The direction parameter can't be zero");
+  }
   Windows.getLastFocused({ populate: true }).then(wnd => {
     // Opera reports all tabs as not highlighted, even the active one
     var highlighted = wnd.tabs.filter(t => t.highlighted || t.active);
     var tabs = wnd.tabs;
 
-    var backwards = (direction > 0);
-    var i = (backwards ? highlighted.length - 1 : 0);
-    while (0 <= i && i < highlighted.length) {
-      var tab = highlighted[i];
+    // Change the iteration behaviour to backwards
+    if (direction > 0) {
+      highlighted[Symbol.iterator] = backwardsIterator;
+    }
 
+    // Iterate through all highlighted tabs
+    for (var tab of highlighted) {
       var index = tab.index;
       do {
         index = (tabs.length + index + direction) % tabs.length;
       } while (tab.pinned !== tabs[index].pinned);
       move(tab.id, { index });
-
-      if (backwards) {
-        --i;
-      } else {
-        ++i;
-      }
     }
   });
+}
+
+/**
+ * Iterates backwards over an array.
+ * Does not handle sparse arrays in a special way, just like
+ * the original iterator.
+ */
+function backwardsIterator() {
+  var array = this;
+  var i = array.length;
+  return {
+    next() {
+      var value = array[--i];
+      return i < 0 ? { done: true } : { value };
+    }
+  };
 }
 
 /**
