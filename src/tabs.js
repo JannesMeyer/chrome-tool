@@ -84,6 +84,7 @@ export function moveHighlighted(direction) {
   Windows.getLastFocused({ populate: true }).then(wnd => {
     var numTabs = wnd.tabs.length;
 
+    // TODO: fix backwards iteration
     for (var tab of (direction > 0) ? backwards(wnd.tabs) : wnd.tabs) {
       // Opera doesn't have highlighted tabs, so we also check for .active
       if (!tab.highlighted && !tab.active) {
