@@ -1,11 +1,8 @@
 BABEL = ./node_modules/.bin/babel
 JASMINE = ./node_modules/.bin/jasmine
-WATCHMAN = watchman
 
-SRC_FILES = $(wildcard src/*.js)
-TARGET_FILES = $(patsubst src/%.js, %.js, $(SRC_FILES))
-
-all: node_modules $(TARGET_FILES)
+all: node_modules
+	@$(BABEL) src --out-dir .
 
 test: all
 	@$(JASMINE)
@@ -14,17 +11,12 @@ node_modules:
 	npm install
 
 %.js:: src/%.js
-	$(BABEL) $< -o $@
+	$(BABEL) $< --out-file $@
 
 watch:
-	@$(WATCHMAN) -n watch src > /dev/null
-	@$(WATCHMAN) -nj < watchman.json > /dev/null
-	@tail -fn0 build.log
-
-watch2:
-	@$(BABEL) src -wd .
+	@$(BABEL) src --out-dir . -w
 
 clean:
 	@rm *.js
 
-.PHONY: all test watch watch2 clean
+.PHONY: all test watch clean
