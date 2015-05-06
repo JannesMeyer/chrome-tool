@@ -1,6 +1,6 @@
 {
   "name": "chrome-tool",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Useful functions for creating Chrome apps and extensions",
   "keywords": [
     "chrome"
