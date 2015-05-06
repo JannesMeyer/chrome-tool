@@ -6,16 +6,7 @@
 import { dechromeifyAll } from './dechromeify';
 import * as Tabs from './tabs';
 
-export var {
-  // async
-  get,
-  getCurrent,
-  getLastFocused,
-  getAll,
-  create,
-  update,
-  remove
-} = dechromeifyAll(chrome.windows);
+var Windows = dechromeifyAll(chrome.windows, [], exports);
 
 /**
  * Opens all windows/tabs that are passed into this function.
@@ -31,12 +22,12 @@ export function open(windows, reuseThreshold = 1) {
 
     // Open new windows
     windows.forEach(urls => {
-      create({ url: urls, focused: false });
+      Windows.create({ url: urls, focused: false });
     });
 
     // Restore focus and open new tabs
     if (newTabs.length > 0) {
-      update(wnd.id, { focused: true });
+      Windows.update(wnd.id, { focused: true });
     }
     newTabs.forEach(url => {
       Tabs.create({ windowId: wnd.id, url, active: false });

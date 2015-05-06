@@ -5,11 +5,4 @@
 
 import { dechromeifyAll } from './dechromeify';
 
-export var {
-  // async
-  get,
-  getBytesInUse,
-  set,
-  remove,
-  clear
-} = dechromeifyAll(chrome.storage.sync);
+var StorageSync = dechromeifyAll(chrome.storage.sync, [], exports);

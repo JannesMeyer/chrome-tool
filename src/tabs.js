@@ -1,39 +1,7 @@
 import { dechromeifyAll } from './dechromeify';
 import * as Windows from './windows';
 
-export var {
-  // async
-  get,
-  getCurrent,
-  sendRequest,
-  sendMessage,
-  getSelected,
-  getAllInWindow,
-  create,
-  duplicate,
-  query,
-  highlight,
-  update,
-  move,
-  reload,
-  remove,
-  detectLanguage,
-  captureVisibleTab,
-  executeScript,
-  insertCSS,
-  setZoom,
-  getZoom,
-  setZoomSettings,
-  getZoomSettings,
-
-  // sync
-  connect
-} = dechromeifyAll(chrome.tabs, [
-  'connect'
-]);
-
-
-
+var Tabs = dechromeifyAll(chrome.tabs, [ 'connect' ], exports);
 
 var isOpera = (navigator.vendor.indexOf('Opera') !== -1);
 
@@ -45,9 +13,9 @@ var isOpera = (navigator.vendor.indexOf('Opera') !== -1);
 export function getHighlighted() {
   // Opera doesn't have highlighted tabs, so we have to customize the query
   if (isOpera) {
-    return query({ lastFocusedWindow: true, active: true });
+    return Tabs.query({ lastFocusedWindow: true, active: true });
   } else {
-    return query({ lastFocusedWindow: true, highlighted: true });
+    return Tabs.query({ lastFocusedWindow: true, highlighted: true });
   }
 }
 
@@ -55,7 +23,7 @@ export function getHighlighted() {
  * Gets active tab in the last focused window.
  */
 export function getActive() {
-  return query({ lastFocusedWindow: true, active: true }).then(results => results[0]);
+  return Tabs.query({ lastFocusedWindow: true, active: true }).then(results => results[0]);
 }
 
 /**
@@ -66,14 +34,14 @@ export function open(openerTab, url) {
   // if (openerTab.url === 'chrome://newtab/' && !openerTab.incognito) {
   //  return Promise.all([ create({ url }), remove(openerTab.id) ]);
   // }
-  return create({ url, openerTabId: openerTab.id });
+  return Tabs.create({ url, openerTabId: openerTab.id });
 }
 
 /**
  * Return the number of tabs that are open
  */
 export function count() {
-  return query({ windowType: 'normal' }).then(tabs => tabs.length);
+  return Tabs.query({ windowType: 'normal' }).then(tabs => tabs.length);
 }
 
 /**
@@ -99,7 +67,7 @@ export function moveHighlighted(direction) {
       do {
         index = (tabs.length + index + direction) % tabs.length;
       } while (tab.pinned !== tabs[index].pinned);
-      move(tab.id, { index });
+      Tabs.move(tab.id, { index });
     }
   });
 }
@@ -131,8 +99,8 @@ export function moveToNewWindow(tabs, incognito) {
     // Use the first tab, so that we don't get a NTP
     Windows.create({ tabId: tabIds.shift(), focused: true, incognito }).then(wnd => {
       if (tabIds.length > 0) {
-        move(tabIds, { windowId: wnd.id, index: -1 }).then(() => {
-          update(activeTab.id, { active: true });
+        Tabs.move(tabIds, { windowId: wnd.id, index: -1 }).then(() => {
+          Tabs.update(activeTab.id, { active: true });
         });
       }
     });
@@ -147,8 +115,8 @@ export function moveToWindow(tabs, targetWindowId) {
   var activeTab = tabs.find(tab => tab.active);
 
   Windows.update(targetWindowId, { focused: true });
-  move(tabIds, { windowId: targetWindowId, index: -1 }).then(() => {
-    update(activeTab.id, { active: true });
+  Tabs.move(tabIds, { windowId: targetWindowId, index: -1 }).then(() => {
+    Tabs.update(activeTab.id, { active: true });
   });
 }
 
@@ -157,7 +125,7 @@ export function moveToWindow(tabs, targetWindowId) {
  */
 export function closeOthers() {
   Promise.all([
-    getCurrent(),
+    Tabs.getCurrent(),
     Windows.getAll({ populate: true })
   ]).then((sourceTab, windows) => {
     // Identify the window that hosts the sourceTab
@@ -172,6 +140,6 @@ export function closeOthers() {
     }
     // Close other tabs
     var tabIds = sourceWindow.tabs.map(t => t.id).filter(id => id !== sourceTab.id);
-    remove(tabIds);
+    Tabs.remove(tabIds);
   });
 }

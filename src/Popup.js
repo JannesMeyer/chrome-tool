@@ -22,7 +22,6 @@ export default class Popup {
 
     // Register/overwrite return handler
     Runtime.onMessage('popup_close', msg => {
-      console.log('Popup return value:', msg);
       this.deferred.resolve(msg);
     });
   }

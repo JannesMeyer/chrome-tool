@@ -24,21 +24,22 @@ export default function dechromeify(obj, key) {
 /**
  * Dechromeify whole objects
  */
-export function dechromeifyAll(obj, sync) {
-  var target = {};
-
-  for (var key of Object.keys(obj)) {
-    var prop = obj[key];
-    if (typeof prop === 'function') {
-      if (sync && sync.indexOf(key) !== -1) {
-        target[key] = prop.bind(obj);
+export function dechromeifyAll(obj, sync = [], target = {}) {
+  Object.keys(obj).forEach(key => {
+    // Don't overwrite
+    if (target.hasOwnProperty(key)) {
+      return;
+    }
+    // Convert functions/events
+    if (typeof obj[key] === 'function') {
+      if (sync.indexOf(key) !== -1) {
+        target[key] = obj[key].bind(obj);
       } else {
         target[key] = dechromeify(obj, key);
       }
-    } else if (prop instanceof chrome.Event) {
-      target[key] = prop.addListener.bind(prop);
+    } else if (obj[key] instanceof chrome.Event) {
+      target[key] = obj[key].addListener.bind(obj[key]);
     }
-  }
-
+  });
   return target;
 }

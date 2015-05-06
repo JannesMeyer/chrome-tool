@@ -6,24 +6,8 @@
 import assign from 'object.assign';
 import { dechromeifyAll } from './dechromeify';
 
-export var {
-  // async
-  getBackgroundPage,
-  openOptionsPage,
-  requestUpdateCheck,
-  sendNativeMessage,
-  getPlatformInfo,
-  getPackageDirectoryEntry,
-
-  // sync
-  getManifest,
-  getURL,
-  setUninstallURL,
-  reload,
-  restart,
-  connect,
-  connectNative
-} = dechromeifyAll(chrome.runtime, [
+// Dynamic exports are not really allowed in ES6, but let's do it anyway
+var Runtime = dechromeifyAll(chrome.runtime, [
   'getManifest',
   'getURL',
   'setUninstallURL',
@@ -31,10 +15,7 @@ export var {
   'restart',
   'connect',
   'connectNative'
-]);
-
-
-
+], exports);
 
 var listeners = new Map();
 
@@ -42,7 +23,7 @@ var listeners = new Map();
  * Send a message to another part of the extension
  */
 export function sendMessage(operation, message) {
-  message = assign({ _chrome_operation: operation }, message);
+  message = assign(message, { _chrome_operation: operation });
 
   var deferred = Promise.defer();
   function callback() {

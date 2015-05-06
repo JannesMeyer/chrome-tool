@@ -14,10 +14,10 @@
   },
   "main": "index.js",
   "dependencies": {
-    "object.assign": "^2.0.1"
+    "object.assign": "2.x"
   },
   "devDependencies": {
     "babel": "x",
-    "jasmine": "^2.2.1"
+    "jasmine": "2.x"
   }
 }
