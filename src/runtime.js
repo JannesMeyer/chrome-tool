@@ -22,7 +22,7 @@ var listeners = new Map();
 /**
  * Send a message to another part of the extension
  */
-export function sendMessage(operation, message) {
+export function sendMessage(operation, message = {}) {
   message = assign(message, { _chrome_operation: operation });
 
   var deferred = Promise.defer();
