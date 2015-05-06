@@ -23,6 +23,7 @@ export default function dechromeify(obj, key) {
 
 /**
  * Dechromeify whole objects
+ * Doesn't overwrite properties in the target object
  */
 export function dechromeifyAll(obj, sync = [], target = {}) {
   Object.keys(obj).forEach(key => {
@@ -32,6 +33,7 @@ export function dechromeifyAll(obj, sync = [], target = {}) {
     }
     // Convert functions/events
     if (typeof obj[key] === 'function') {
+      // Check for excluded from chromeification
       if (sync.indexOf(key) !== -1) {
         target[key] = obj[key].bind(obj);
       } else {

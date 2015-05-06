@@ -127,7 +127,7 @@ export function closeOthers() {
   Promise.all([
     Tabs.getCurrent(),
     Windows.getAll({ populate: true })
-  ]).then((sourceTab, windows) => {
+  ]).then(([sourceTab, windows]) => {
     // Identify the window that hosts the sourceTab
     var sourceWindow;
     for (var wnd of windows) {
