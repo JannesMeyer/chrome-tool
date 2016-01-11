@@ -1,3 +1,8 @@
+/*
+ * Documentation:
+ * https://developer.chrome.com/extensions/tabs#toc
+ */
+
 import { dechromeifyAll } from './dechromeify';
 import * as Windows from './windows';
 
