@@ -17,7 +17,7 @@ The API is like chrome.windows.\* except that it returns promises.
 ## Tabs
 
 ```js
-import * as Tabs from 'chrome-tool/windows';
+import * as Tabs from 'chrome-tool/tabs';
 ```
 
 The API is like chrome.tabs.\* except that it returns promises.
@@ -26,7 +26,13 @@ The API is like chrome.tabs.\* except that it returns promises.
 
 ## Runtime
 
+```js
+import * as Runtime from 'chrome-tool/runtime';
+```
 
+The API is like chrome.tabs.\* except that it returns promises.
+
+[Documentation](https://developer.chrome.com/extensions/tabs#toc)
 
 ## Contributing
 
@@ -38,3 +44,7 @@ Download source and compile:
 Watch for changes and recompile:
 
 	make watch
+
+Run tests:
+
+	npm test
