@@ -10,23 +10,23 @@
 import * as Windows from 'chrome-tool/windows';
 ```
 
-The API is like chrome.windows.\* except that it returns promises.
+The API is like [chrome.windows.\*](https://developer.chrome.com/extensions/windows#toc) except that it returns promises.
 
-[Documentation](https://developer.chrome.com/extensions/windows#toc)
+Functions:
 
-- Windows.get(windowId, getInfo): Promise
-- Windows.getCurrent(getInfo): Promise
-- Windows.getLastFocused(getInfo): Promise
-- Windows.getAll(getInfo): Promise
-- Windows.create(createData): Promise
-- Windows.update(windowId, updateInfo): Promise
-- Windows.remove(windowId): Promise
+- `Windows.get(windowId, getInfo): Promise`
+- `Windows.getCurrent(getInfo): Promise`
+- `Windows.getLastFocused(getInfo): Promise`
+- `Windows.getAll(getInfo): Promise`
+- `Windows.create(createData): Promise`
+- `Windows.update(windowId, updateInfo): Promise`
+- `Windows.remove(windowId): Promise`
 
 Events:
 
-- Windows.onCreated(callback): void
-- Windows.onRemoved(callback): void
-- Windows.onFocusChanged(callback): void
+- `Windows.onCreated(callback): void`
+- `Windows.onRemoved(callback): void`
+- `Windows.onFocusChanged(callback): void`
 
 Custom functions:
 
