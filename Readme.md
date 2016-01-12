@@ -4,36 +4,6 @@
 [![Dependencies](https://david-dm.org/JannesMeyer/chrome-tool.svg)](https://david-dm.org/JannesMeyer/chrome-tool)
 [![Development Dependencies](https://david-dm.org/JannesMeyer/chrome-tool/dev-status.svg)](https://david-dm.org/JannesMeyer/chrome-tool#info=devDependencies)
 
-## Windows
-
-```js
-import { Windows } from 'chrome-tool';
-```
-
-The API works like [chrome.windows.\*](https://developer.chrome.com/extensions/windows#toc) except that it returns promises.
-
-Functions:
-
-- `Windows.get(windowId, getInfo?): Promise`
-- `Windows.getCurrent(getInfo?): Promise`
-- `Windows.getLastFocused(getInfo?): Promise`
-- `Windows.getAll(getInfo?): Promise`
-- `Windows.create(createData?): Promise`
-- `Windows.update(windowId, updateInfo): Promise`
-- `Windows.remove(windowId): Promise`
-
-Events:
-
-- `Windows.onCreated(callback): void`
-- `Windows.onRemoved(callback): void`
-- `Windows.onFocusChanged(callback): void`
-
-Custom functions:
-
-- `Windows.open(windows: string[][], reuseThreshold = 1): void`
-	- `windows`: 2-dimensional array of URLs to open as windows
-	- `reuseThreshold`: Re-uses the current window if its number of tabs is less than or equal
-
 ## Tabs
 
 ```js
@@ -89,6 +59,36 @@ Custom functions:
 - `Tabs.moveToNewWindow(tabs: Tab[], incognito: boolean): Promise`
 - `Tabs.moveToWindow(tabs: Tab[], targetWindowId: number): Promise`
 - `Tabs.closeOthers(): Promise`
+
+## Windows
+
+```js
+import { Windows } from 'chrome-tool';
+```
+
+The API works like [chrome.windows.\*](https://developer.chrome.com/extensions/windows#toc) except that it returns promises.
+
+Functions:
+
+- `Windows.get(windowId, getInfo?): Promise`
+- `Windows.getCurrent(getInfo?): Promise`
+- `Windows.getLastFocused(getInfo?): Promise`
+- `Windows.getAll(getInfo?): Promise`
+- `Windows.create(createData?): Promise`
+- `Windows.update(windowId, updateInfo): Promise`
+- `Windows.remove(windowId): Promise`
+
+Events:
+
+- `Windows.onCreated(callback): void`
+- `Windows.onRemoved(callback): void`
+- `Windows.onFocusChanged(callback): void`
+
+Custom functions:
+
+- `Windows.open(windows: string[][], reuseThreshold = 1): void`
+	- `windows`: 2-dimensional array of URLs to open as windows
+	- `reuseThreshold`: Re-uses the current window if its number of tabs is less than or equal
 
 ## Runtime
 
