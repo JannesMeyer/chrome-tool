@@ -14,11 +14,11 @@ The API is like [chrome.windows.\*](https://developer.chrome.com/extensions/wind
 
 Functions:
 
-- `Windows.get(windowId, getInfo): Promise`
-- `Windows.getCurrent(getInfo): Promise`
-- `Windows.getLastFocused(getInfo): Promise`
-- `Windows.getAll(getInfo): Promise`
-- `Windows.create(createData): Promise`
+- `Windows.get(windowId, getInfo?): Promise`
+- `Windows.getCurrent(getInfo?): Promise`
+- `Windows.getLastFocused(getInfo?): Promise`
+- `Windows.getAll(getInfo?): Promise`
+- `Windows.create(createData?): Promise`
 - `Windows.update(windowId, updateInfo): Promise`
 - `Windows.remove(windowId): Promise`
 
@@ -30,7 +30,7 @@ Events:
 
 Custom functions:
 
-- Windows.open(windows: string[][], reuseThreshold = 1): void
+- `Windows.open(windows: string[][], reuseThreshold = 1): void`
 	- `windows`: 2-dimensional array of URLs to open as windows
 	- `reuseThreshold`: Re-uses the current window if its number of tabs is less than or equal
 
