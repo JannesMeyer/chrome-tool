@@ -5,12 +5,12 @@ all: node_modules
 	@$(BABEL) src --out-dir .
 
 .PHONY: watch
-watch:
+watch: node_modules
 	@$(BABEL) src --out-dir . --watch
 
 .PHONY: clean
 clean:
-	-@rm *.js *.log
+	-rm *.js *.log
 
 node_modules:
 	npm install
