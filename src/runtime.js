@@ -25,6 +25,7 @@ var listeners = new Map();
 export function sendMessage(operation, message = {}) {
   message = assign(message, { _chrome_operation: operation });
 
+  // TODO: Replace Promise.defer() with something standardized
   var deferred = Promise.defer();
   function callback() {
     var response = arguments[0]

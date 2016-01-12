@@ -53,7 +53,7 @@ Functions:
 - `Tabs.update(tabId?: number, updateProperties): Promise`
 - `Tabs.move(tabIds: number | number[], moveProperties): Promise`
 - `Tabs.reload(tabId?: number, reloadProperties?): Promise`
-- `Tabs.remove(tabIds: number : number[]): Promise`
+- `Tabs.remove(tabIds: number | number[]): Promise`
 - `Tabs.detectLanguage(tabId?: number): Promise`
 - `Tabs.captureVisibleTab(windowId?: number, options?): Promise`
 - `Tabs.executeScript(tabId?: number, details): Promise`
@@ -96,7 +96,40 @@ Custom functions:
 import * as Runtime from 'chrome-tool/runtime';
 ```
 
-The API works like [chrome.runtime.\*](https://developer.chrome.com/extensions/tabs#toc) except that it returns promises.
+The API works like [chrome.runtime.\*](https://developer.chrome.com/extensions/runtime#toc) except that it returns promises.
+
+Functions:
+
+- `Runtime.getBackgroundPage(): Promise`
+- `Runtime.openOptionsPage(): Promise`
+- `Runtime.getManifest(): any`
+- `Runtime.getURL(string path): string`
+- `Runtime.setUninstallURL(url: string): Promise`
+- `Runtime.reload(): void`
+- `Runtime.requestUpdateCheck(): Promise`
+- `Runtime.restart(): void`
+- `Runtime.connect(extensionId?: string, connectInfo?): Port`
+- `Runtime.connectNative(application: string): Port`
+- `Runtime.sendNativeMessage(application: string, message): Promise`
+- `Runtime.getPlatformInfo(): Promise`
+- `Runtime.getPackageDirectoryEntry(): Promise`
+
+Events:
+
+- `Runtime.onStartup(callback): void`
+- `Runtime.onInstalled(callback): void`
+- `Runtime.onSuspend(callback): void`
+- `Runtime.onSuspendCanceled(callback): void`
+- `Runtime.onUpdateAvailable(callback): void`
+- `Runtime.onConnect(callback): void`
+- `Runtime.onConnectExternal(callback): void`
+- `Runtime.onMessageExternal(callback): void`
+- `Runtime.onRestartRequired(callback): void`
+
+Custom functions:
+
+- `sendMessage(operation: string, message): Promise`
+- `onMessage(operation: string, callback): void`
 
 ## Contributing
 
