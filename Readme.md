@@ -7,7 +7,7 @@
 ## Windows
 
 ```js
-import * as Windows from 'chrome-tool/windows';
+import { Windows } from 'chrome-tool';
 ```
 
 The API is like [chrome.windows.\*](https://developer.chrome.com/extensions/windows#toc) except that it returns promises.
@@ -37,12 +37,58 @@ Custom functions:
 ## Tabs
 
 ```js
-import * as Tabs from 'chrome-tool/tabs';
+import { Tabs } from 'chrome-tool';
 ```
 
-The API is like chrome.tabs.\* except that it returns promises.
+The API is like [chrome.tabs.\*](https://developer.chrome.com/extensions/tabs#toc) except that it returns promises.
 
-[Documentation](https://developer.chrome.com/extensions/tabs#toc)
+Functions:
+
+- `Tabs.get(tabId: number): Promise`
+- `Tabs.getCurrent(): Promise`
+- `Tabs.create(createProperties): Promise`
+- `Tabs.duplicate(tabId: number): Promise`
+- `Tabs.query(queryInfo): Promise`
+- `Tabs.highlight(highlightInfo): Promise`
+- `Tabs.update(tabId?: number, updateProperties): Promise`
+- `Tabs.move(tabIds: number | number[], moveProperties): Promise`
+- `Tabs.reload(tabId?: number, reloadProperties?): Promise`
+- `Tabs.remove(tabIds: number : number[]): Promise`
+- `Tabs.detectLanguage(tabId?: number): Promise`
+- `Tabs.captureVisibleTab(windowId?: number, options?): Promise`
+- `Tabs.executeScript(tabId?: number, details): Promise`
+- `Tabs.insertCSS(tabId?: number, object details): Promise`
+- `Tabs.setZoom(tabId?: number, zoomFactor: number): Promise`
+- `Tabs.getZoom(tabId?: number): Promise`
+- `Tabs.setZoomSettings(tabId?: number, zoomSettings): Promise`
+- `Tabs.getZoomSettings(tabId?: number): Promise`
+
+Events:
+
+- `Tabs.onCreated(callback): void`
+- `Tabs.onUpdated(callback): void`
+- `Tabs.onMoved(callback): void`
+- `Tabs.onSelectionChanged(callback): void`
+- `Tabs.onActiveChanged(callback): void`
+- `Tabs.onActivated(callback): void`
+- `Tabs.onHighlightChanged(callback): void`
+- `Tabs.onHighlighted(callback): void`
+- `Tabs.onDetached(callback): void`
+- `Tabs.onAttached(callback): void`
+- `Tabs.onRemoved(callback): void`
+- `Tabs.onReplaced(callback): void`
+- `Tabs.onZoomChange(callback): void`
+
+Custom functions:
+
+- `Tabs.getHighlighted(): Promise`
+- `Tabs.getActive(): Promise`
+- `Tabs.open(openerTab: { id: number }, url: string): Promise`
+- `Tabs.count(): Promise`
+- `Tabs.moveHighlighted(direction: number): Promise`
+- `Tabs.moveToNewWindow(tabs: Tab[], incognito: boolean): Promise`
+- `Tabs.moveToWindow(tabs: Tab[], targetWindowId: number): Promise`
+- `Tabs.closeOthers(): Promise`
 
 ## Runtime
 
@@ -50,9 +96,7 @@ The API is like chrome.tabs.\* except that it returns promises.
 import * as Runtime from 'chrome-tool/runtime';
 ```
 
-The API is like chrome.tabs.\* except that it returns promises.
-
-[Documentation](https://developer.chrome.com/extensions/tabs#toc)
+The API is like [chrome.runtime.\*](https://developer.chrome.com/extensions/tabs#toc) except that it returns promises.
 
 ## Contributing
 
