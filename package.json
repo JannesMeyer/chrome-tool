@@ -10,7 +10,7 @@
   "repository": "JannesMeyer/chrome-tool",
   "scripts": {
     "prepublish": "make",
-    "test": "make test"
+    "test": "./node_modules/.bin/jasmine"
   },
   "main": "index.js",
   "dependencies": {
