@@ -10,7 +10,7 @@
 import { Windows } from 'chrome-tool';
 ```
 
-The API is like [chrome.windows.\*](https://developer.chrome.com/extensions/windows#toc) except that it returns promises.
+The API works like [chrome.windows.\*](https://developer.chrome.com/extensions/windows#toc) except that it returns promises.
 
 Functions:
 
@@ -40,7 +40,7 @@ Custom functions:
 import { Tabs } from 'chrome-tool';
 ```
 
-The API is like [chrome.tabs.\*](https://developer.chrome.com/extensions/tabs#toc) except that it returns promises.
+The API works like [chrome.tabs.\*](https://developer.chrome.com/extensions/tabs#toc) except that it returns promises.
 
 Functions:
 
@@ -96,7 +96,7 @@ Custom functions:
 import * as Runtime from 'chrome-tool/runtime';
 ```
 
-The API is like [chrome.runtime.\*](https://developer.chrome.com/extensions/tabs#toc) except that it returns promises.
+The API works like [chrome.runtime.\*](https://developer.chrome.com/extensions/tabs#toc) except that it returns promises.
 
 ## Contributing
 
