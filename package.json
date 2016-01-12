@@ -6,7 +6,7 @@
     "chrome"
   ],
   "author": "Jannes Meyer <jannes.meyer@gmail.com>",
-  "license": "GPLv3",
+  "license": "GPL-3.0",
   "repository": "JannesMeyer/chrome-tool",
   "scripts": {
     "prepublish": "make",
@@ -17,7 +17,7 @@
     "object.assign": "^4.0.3"
   },
   "devDependencies": {
-    "babel": "^6.3.26",
+    "babel-cli": "^6.3.26",
     "jasmine": "^2.4.1"
   }
 }
