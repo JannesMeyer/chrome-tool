@@ -1,22 +1,19 @@
 BABEL = ./node_modules/.bin/babel
-JASMINE = ./node_modules/.bin/jasmine
 
+.PHONY: all
 all: node_modules
 	@$(BABEL) src --out-dir .
 
-test: all
-	@$(JASMINE)
+.PHONY: watch
+watch:
+	@$(BABEL) src --out-dir . --watch
+
+.PHONY: clean
+clean:
+	-@rm *.js *.log
 
 node_modules:
 	npm install
 
 %.js:: src/%.js
 	$(BABEL) $< --out-file $@
-
-watch:
-	@$(BABEL) src --out-dir . -w
-
-clean:
-	@rm *.js
-
-.PHONY: all test watch clean
