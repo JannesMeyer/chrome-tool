@@ -198,6 +198,21 @@ import { getString } from 'chrome-tool/i18n';
 	- Slight improvement over the builtin [chrome.i18n.getMessage](https://developer.chrome.com/extensions/i18n#toc)
 	- [Read the implementation](https://github.com/JannesMeyer/chrome-tool/blob/fcd8ff6f8eb1a6745dc3f4464cdd5ddd42a263e7/src/i18n.js)
 
+## ContextMenuItem
+
+```js
+import { ContextMenuItem } from 'chrome-tool/i18n';
+```
+
+[chrome.contextMenus.\*](https://developer.chrome.com/extensions/contextMenus#toc)
+
+```js
+let item = new ContextMenuItem(id?: string, contexts?: string[], onclick?: function);
+item.show();
+item.hide();
+item.setVisible(visibility: boolean);
+```
+
 ## Contributing
 
 Download source and compile:
