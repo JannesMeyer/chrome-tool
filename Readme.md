@@ -93,7 +93,7 @@ Custom functions:
 ## Runtime
 
 ```js
-import * as Runtime from 'chrome-tool/runtime';
+import { Runtime } from 'chrome-tool';
 ```
 
 The API works like [chrome.runtime.\*](https://developer.chrome.com/extensions/runtime#toc) except that it returns promises.
@@ -114,6 +114,11 @@ Functions:
 - `Runtime.getPlatformInfo(): Promise`
 - `Runtime.getPackageDirectoryEntry(): Promise`
 
+Modified functions (these work differently than described in Chrome's docs):
+
+- `sendMessage(operation: string, message): Promise`
+- `onMessage(operation: string, callback): void`
+
 Events:
 
 - `Runtime.onStartup(callback): void`
@@ -126,10 +131,72 @@ Events:
 - `Runtime.onMessageExternal(callback): void`
 - `Runtime.onRestartRequired(callback): void`
 
-Custom functions:
+## StorageSync
 
-- `sendMessage(operation: string, message): Promise`
-- `onMessage(operation: string, callback): void`
+```js
+import { StorageSync } from 'chrome-tool';
+```
+
+The API works like [chrome.storage.sync.\*](https://developer.chrome.com/extensions/storage#toc) except that it returns promises.
+
+Functions:
+
+- `StorageSync.get(keys?: string | string[] | object): Promise`
+- `StorageSync.getBytesInUse(keys?: string | string[]): Promise`
+- `StorageSync.set(items): Promise`
+- `StorageSync.remove(keys: string | string[]): Promise`
+- `StorageSync.clear(): Promise`
+
+Events:
+
+- `StorageSync.onChanged(callback): void`
+
+## Management
+
+```js
+import { getExtensionInfo } from 'chrome-tool/management';
+```
+
+Functions:
+
+- `getExtensionInfo(): Promise`
+	- [chrome.managment.getSelf()](https://developer.chrome.com/extensions/management#method-getSelf)
+
+## Internationalization
+
+```js
+import { getString } from 'chrome-tool/i18n';
+```
+
+- `getString(name: string, substitution?: number | string): string`
+	- Slight improvement over the builtin [chrome.i18n.getMessage](https://developer.chrome.com/extensions/i18n#toc)
+	- [Read the implementation](https://github.com/JannesMeyer/chrome-tool/blob/fcd8ff6f8eb1a6745dc3f4464cdd5ddd42a263e7/src/i18n.js)
+
+## BrowserAction
+
+```js
+import { BrowserAction } from 'chrome-tool';
+```
+
+The API works like [chrome.browserAction.\*](https://developer.chrome.com/extensions/browserAction#toc) except that it returns promises.
+
+Functions:
+
+- `BrowserAction.getTitle(details: object): Promise`
+- `BrowserAction.getPopup(details: object): Promise`
+- `BrowserAction.getBadgeText(details: object): Promise`
+- `BrowserAction.getBadgeBackgroundColor(details: object): Promise`
+- `BrowserAction.setTitle(details: object): void`
+- `BrowserAction.setPopup(details: object): void`
+- `BrowserAction.setBadgeText(details: object): void`
+- `BrowserAction.setBadgeBackgroundColor(details: object): void`
+- `BrowserAction.setIcon(details: object): Promise`
+- `BrowserAction.enable(tabId?: number): void`
+- `BrowserAction.disable(tabId?: number): void`
+
+Events:
+
+- `BrowserAction.onClicked(callback): void`
 
 ## Contributing
 
@@ -145,3 +212,4 @@ Watch for changes and recompile:
 Run tests:
 
 	npm test
+
