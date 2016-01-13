@@ -151,27 +151,6 @@ Events:
 
 - `StorageSync.onChanged(callback): void`
 
-## Management
-
-```js
-import { getExtensionInfo } from 'chrome-tool/management';
-```
-
-Functions:
-
-- `getExtensionInfo(): Promise`
-	- [chrome.managment.getSelf()](https://developer.chrome.com/extensions/management#method-getSelf)
-
-## Internationalization
-
-```js
-import { getString } from 'chrome-tool/i18n';
-```
-
-- `getString(name: string, substitution?: number | string): string`
-	- Slight improvement over the builtin [chrome.i18n.getMessage](https://developer.chrome.com/extensions/i18n#toc)
-	- [Read the implementation](https://github.com/JannesMeyer/chrome-tool/blob/fcd8ff6f8eb1a6745dc3f4464cdd5ddd42a263e7/src/i18n.js)
-
 ## BrowserAction
 
 ```js
@@ -197,6 +176,27 @@ Functions:
 Events:
 
 - `BrowserAction.onClicked(callback): void`
+
+## Management
+
+```js
+import { getExtensionInfo } from 'chrome-tool/management';
+```
+
+Functions:
+
+- `getExtensionInfo(): Promise`
+	- [chrome.managment.getSelf()](https://developer.chrome.com/extensions/management#method-getSelf)
+
+## Internationalization
+
+```js
+import { getString } from 'chrome-tool/i18n';
+```
+
+- `getString(name: string, substitution?: number | string): string`
+	- Slight improvement over the builtin [chrome.i18n.getMessage](https://developer.chrome.com/extensions/i18n#toc)
+	- [Read the implementation](https://github.com/JannesMeyer/chrome-tool/blob/fcd8ff6f8eb1a6745dc3f4464cdd5ddd42a263e7/src/i18n.js)
 
 ## Contributing
 
