@@ -1,3 +1,5 @@
+'use_strict';
+
 global.chrome = {
   browserAction: {
     getTitle() {},
