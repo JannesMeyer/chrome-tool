@@ -1,8 +1,3 @@
-/*
- * Documentation:
- * https://developer.chrome.com/extensions/browserAction#toc
- */
-
 import { dechromeifyAll } from './dechromeify';
 
 var BrowserAction = dechromeifyAll(chrome.browserAction, [
@@ -12,4 +7,6 @@ var BrowserAction = dechromeifyAll(chrome.browserAction, [
   'setBadgeBackgroundColor',
   'enable',
   'disable'
-], exports);
+]);
+
+export default BrowserAction;

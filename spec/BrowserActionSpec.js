@@ -7,7 +7,7 @@ global.chrome = {
   }
 };
 
-var BrowserAction = require('../browser-action');
+var BrowserAction = require('../browser-action').default;
 
 describe('BrowserAction', () => {
 
@@ -23,6 +23,11 @@ describe('BrowserAction', () => {
   });
 
   it('calls through to sync functions', () => {
+    BrowserAction.setBadgeText({ text: 'test' });
+    expect(chrome.browserAction.setBadgeText).toHaveBeenCalledWith({ text: 'test' });
+  });
+
+  it('returns promises that resolve', () => {
     BrowserAction.setBadgeText({ text: 'test' });
     expect(chrome.browserAction.setBadgeText).toHaveBeenCalledWith({ text: 'test' });
   });

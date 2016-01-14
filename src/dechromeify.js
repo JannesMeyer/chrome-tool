@@ -1,7 +1,7 @@
 /**
  * Convert an async Chrome function into one that returns a Promise
  */
-export default function dechromeify(obj, key) {
+export function dechromeify(source, name) {
   return function dechromeified() {
     var deferred = Promise.defer();
 
@@ -15,36 +15,32 @@ export default function dechromeify(obj, key) {
     });
 
     // Execute function
-    obj[key].apply(obj, arguments);
+    source[name].apply(source, arguments);
 
     return deferred.promise;
   };
 }
 
+export function alias(source, name) {
+  return function aliased() {
+    return source[name].apply(source, arguments);
+  };
+}
+
 /**
  * Dechromeify whole objects
- * Doesn't overwrite properties in the target object
  */
-export function dechromeifyAll(obj, sync = [], target = {}) {
-  Object.keys(obj).forEach(key => {
-    // Don't overwrite
-    if (target.hasOwnProperty(key)) {
-      return;
-    }
-    // Convert functions/events
-    let prop = obj[key];
-    if (typeof prop === 'function') {
-      // Check for excluded from chromeification
-      if (sync.indexOf(key) !== -1) {
-        target[key] = function() {
-          return obj[key].apply(obj, arguments);
-        }
-      } else {
-        target[key] = dechromeify(obj, key);
-      }
-    } else if (prop instanceof chrome.Event) {
-      target[key] = obj[key].addListener.bind(obj[key]);
+export function dechromeifyAll(source, sync = []) {
+  let result = Object.create(null);
+  Object.keys(source).forEach(name => {
+    if (typeof source[name] === 'function') {
+      let convertFunction = (sync.indexOf(name) > -1 ? alias : dechromeify);
+      result[name] = convertFunction(source, name);
+    } else if (source[name] instanceof chrome.Event) {
+      result[name] = alias(source[name], 'addListener');
+    } else {
+      result[name] = source[name];
     }
   });
-  return target;
+  return result;
 }
