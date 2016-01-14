@@ -1,4 +1,4 @@
-'use_strict';
+'use strict';
 
 global.chrome = {
   browserAction: {
@@ -16,15 +16,15 @@ describe('BrowserAction', () => {
     spyOn(chrome.browserAction, 'setBadgeText');
   });
 
-  it('calls through correctly', () => {
-    BrowserAction.getTitle('foo');
-    expect(chrome.browserAction.getTitle).toHaveBeenCalledWith('foo', jasmine.any(Function));
+  it('calls through to async functions', () => {
+    BrowserAction.getTitle('foo').then(() => {
+      expect(chrome.browserAction.getTitle).toHaveBeenCalledWith('foo', jasmine.any(Function));
+    });
   });
 
-  it('returns a promise', () => {
-    let result = BrowserAction.setBadgeText('test');
-
-    expect(chrome.browserAction.setBadgeText).toHaveBeenCalledWith('test', jasmine.any(Function));
+  it('calls through to sync functions', () => {
+    BrowserAction.setBadgeText({ text: 'test' });
+    expect(chrome.browserAction.setBadgeText).toHaveBeenCalledWith({ text: 'test' });
   });
 
 });

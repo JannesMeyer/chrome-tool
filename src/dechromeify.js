@@ -32,14 +32,17 @@ export function dechromeifyAll(obj, sync = [], target = {}) {
       return;
     }
     // Convert functions/events
-    if (typeof obj[key] === 'function') {
+    let prop = obj[key];
+    if (typeof prop === 'function') {
       // Check for excluded from chromeification
       if (sync.indexOf(key) !== -1) {
-        target[key] = obj[key].bind(obj);
+        target[key] = function() {
+          return obj[key].apply(obj, arguments);
+        }
       } else {
         target[key] = dechromeify(obj, key);
       }
-    } else if (obj[key] instanceof chrome.Event) {
+    } else if (prop instanceof chrome.Event) {
       target[key] = obj[key].addListener.bind(obj[key]);
     }
   });
