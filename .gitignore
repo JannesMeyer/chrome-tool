@@ -1,8 +1,7 @@
-node_modules
-*.log
-
 *.js
 !src/**
 !spec/**
 
+node_modules
+*.log
 .DS_Store
