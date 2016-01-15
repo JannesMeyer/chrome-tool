@@ -3,7 +3,6 @@
  * https://developer.chrome.com/extensions/runtime#toc
  */
 
-import assign from 'object.assign';
 import { dechromeifyAll } from './dechromeify';
 
 // Dynamic exports are not really allowed in ES6, but let's do it anyway
@@ -23,7 +22,7 @@ var listeners = new Map();
  * Send a message to another part of the extension
  */
 export function sendMessage(operation, message = {}) {
-  message = assign(message, { _chrome_operation: operation });
+  message = Object.assign(message, { _chrome_operation: operation });
 
   // TODO: Replace Promise.defer() with something standardized
   var deferred = Promise.defer();

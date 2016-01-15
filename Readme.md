@@ -4,6 +4,11 @@
 [![Dependencies](https://david-dm.org/JannesMeyer/chrome-tool.svg)](https://david-dm.org/JannesMeyer/chrome-tool)
 [![Development Dependencies](https://david-dm.org/JannesMeyer/chrome-tool/dev-status.svg)](https://david-dm.org/JannesMeyer/chrome-tool#info=devDependencies)
 
+Compatible with Chrome 45 and higher. For older versions you might need to polyfill these:
+
+- Object.assign()
+- Promise
+
 ## Tabs
 
 ```js

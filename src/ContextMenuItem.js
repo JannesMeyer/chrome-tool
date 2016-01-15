@@ -3,7 +3,6 @@
  * https://developer.chrome.com/extensions/contextMenus#toc
  */
 
-import assign from 'object.assign';
 import { getString } from './i18n';
 
 export default class ContextMenuItem {
@@ -31,7 +30,7 @@ export default class ContextMenuItem {
   }
 
   show() {
-    chrome.contextMenus.create(assign({}, this.props));
+    chrome.contextMenus.create(Object.assign({}, this.props));
     return this;
   }
 
