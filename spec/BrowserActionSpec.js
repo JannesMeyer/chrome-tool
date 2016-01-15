@@ -18,8 +18,8 @@ describe('BrowserAction', () => {
     spyOn(chrome.browserAction, 'getTitle').and.callThrough();
     spyOn(chrome.browserAction, 'setBadgeText');
 
-    // Init chrome-tool on top
-    BrowserAction = require('../browser-action').default;
+    // Init chrome-tool
+    BrowserAction = require('../BrowserAction').default;
   });
 
   it('calls through to sync functions', () => {

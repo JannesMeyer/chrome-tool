@@ -1,6 +1,6 @@
 import { dechromeifyAll } from './dechromeify';
 
-var BrowserAction = dechromeifyAll(chrome.browserAction, [
+export default dechromeifyAll(chrome.browserAction, [
   'setTitle',
   'setPopup',
   'setBadgeText',
@@ -8,5 +8,3 @@ var BrowserAction = dechromeifyAll(chrome.browserAction, [
   'enable',
   'disable'
 ]);
-
-export default BrowserAction;
