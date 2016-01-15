@@ -10,7 +10,8 @@ watch: node_modules
 
 .PHONY: clean
 clean:
-	-rm *.js *.log
+	-rm *.js
+	-rm *.log
 
 node_modules:
 	npm install
