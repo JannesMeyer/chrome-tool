@@ -6,7 +6,7 @@
 
 Compatible with Chrome 45 and higher. For older versions you might need to polyfill these:
 
-- Object.assign()
+- Object.assign
 - Promise
 
 ## Tabs
