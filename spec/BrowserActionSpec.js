@@ -1,25 +1,25 @@
 'use strict';
 
-global.chrome = {
-  browserAction: {
-    getTitle() {},
-    setBadgeText() {},
-  }
-};
-
-var BrowserAction = require('../browser-action').default;
-
 describe('BrowserAction', () => {
 
-  beforeEach(() => {
-    spyOn(chrome.browserAction, 'getTitle');
-    spyOn(chrome.browserAction, 'setBadgeText');
-  });
+  var BrowserAction;
 
-  it('calls through to async functions', () => {
-    BrowserAction.getTitle('foo').then(() => {
-      expect(chrome.browserAction.getTitle).toHaveBeenCalledWith('foo', jasmine.any(Function));
-    });
+  beforeAll(() => {
+    // Mock chrome API
+    global.chrome = {
+      runtime: {},
+      browserAction: {
+        getTitle(detail, callback) {
+          callback(detail);
+        },
+        setBadgeText() {},
+      }
+    };
+    spyOn(chrome.browserAction, 'getTitle').and.callThrough();
+    spyOn(chrome.browserAction, 'setBadgeText');
+
+    // Init chrome-tool on top
+    BrowserAction = require('../browser-action').default;
   });
 
   it('calls through to sync functions', () => {
@@ -27,9 +27,11 @@ describe('BrowserAction', () => {
     expect(chrome.browserAction.setBadgeText).toHaveBeenCalledWith({ text: 'test' });
   });
 
-  it('returns promises that resolve', () => {
-    BrowserAction.setBadgeText({ text: 'test' });
-    expect(chrome.browserAction.setBadgeText).toHaveBeenCalledWith({ text: 'test' });
+  it('calls through to async functions', (done) => {
+    BrowserAction.getTitle('foo').then(detail => {
+      expect(detail).toBe('foo');
+      done();
+    });
   });
 
 });
