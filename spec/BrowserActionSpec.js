@@ -22,6 +22,10 @@ describe('BrowserAction', () => {
     BrowserAction = require('../BrowserAction').default;
   });
 
+  it('does not touch types', () => {
+    expect(BrowserAction.ColorArray).toBe(chrome.browserAction.ColorArray);
+  });
+
   it('calls through to sync functions', () => {
     BrowserAction.setBadgeText({ text: 'test' });
     expect(chrome.browserAction.setBadgeText).toHaveBeenCalledWith({ text: 'test' });
@@ -30,6 +34,7 @@ describe('BrowserAction', () => {
   it('calls through to async functions', (done) => {
     BrowserAction.getTitle('foo').then(detail => {
       expect(detail).toBe('foo');
+      expect(chrome.browserAction.getTitle).toHaveBeenCalledWith('foo', jasmine.any(Function));
       done();
     });
   });
