@@ -1,4 +1,13 @@
 /**
+ * Rename a sync function (closures are faster than .bind)
+ */
+export function alias(source, name) {
+  return function aliased() {
+    return source[name].apply(source, arguments);
+  };
+}
+
+/**
  * Convert an async callback-style function into one that returns a Promise
  */
 export function dechromeify(source, name) {
@@ -43,13 +52,4 @@ export function dechromeifyAll(source, sync = []) {
   });
 
   return result;
-}
-
-/**
- * Rename a sync function (closures are faster than .bind)
- */
-export function alias(source, name) {
-  return function aliased() {
-    return source[name].apply(source, arguments);
-  };
 }
