@@ -18,7 +18,7 @@ export {
  * Returns a translated string
  * https://developer.chrome.com/extensions/i18n#toc
  */
-export function getString(name, substitution) {
+export function getString(name: string, substitution?: string | number): string {
   if (substitution == null) {
     return chrome.i18n.getMessage(name);
   }
