@@ -1,5 +1,6 @@
 'use strict';
 
+// Note: This has to be the first spec file being executed
 describe('chrome-tool', () => {
 
   var chrometool;
@@ -12,6 +13,7 @@ describe('chrome-tool', () => {
   });
 
   it('loads in less than 20ms', () => {
+    expect(loadTime).not.toBe(0);
     expect(loadTime).toBeLessThan(20);
   });
 
