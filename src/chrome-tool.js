@@ -19,13 +19,8 @@ export {
  * https://developer.chrome.com/extensions/i18n#toc
  */
 export function getString(name: string, substitution?: string | number): string {
-  if (substitution == null) {
-    return chrome.i18n.getMessage(name);
+  if (typeof substitution === 'number') {
+    name += (substitution === 1 ? '_one' : '_many');
   }
-
-  if (typeof substitution === 'number' && substitution > 1) {
-    return chrome.i18n.getMessage(name + 's', [ substitution ]);
-  } else {
-    return chrome.i18n.getMessage(name, [ substitution ]);
-  }
+  return chrome.i18n.getMessage(name, [ substitution ]);
 }
