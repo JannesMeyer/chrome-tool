@@ -8,6 +8,7 @@ Compatible with Chrome 45 and higher. For older versions you might need to polyf
 
 - Object.assign
 - Promise
+- Map
 
 ## Tabs
 
