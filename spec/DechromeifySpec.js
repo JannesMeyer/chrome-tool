@@ -1,25 +1,14 @@
 'use strict';
 
-describe('BrowserAction', () => {
+describe('Dechromeify', () => {
 
   var BrowserAction;
 
   beforeAll(() => {
-    // Mock chrome API
-    global.chrome = {
-      runtime: {},
-      browserAction: {
-        getTitle(detail, callback) {
-          callback(detail);
-        },
-        setBadgeText() {},
-      }
-    };
+    // Spy on the API before promisifying it
     spyOn(chrome.browserAction, 'getTitle').and.callThrough();
     spyOn(chrome.browserAction, 'setBadgeText');
-
-    // Init chrome-tool
-    BrowserAction = require('../BrowserAction').default;
+    BrowserAction = require('..').BrowserAction;
   });
 
   it('does not touch types', () => {
