@@ -1,8 +1,4 @@
-/*
- * Documentation:
- * https://developer.chrome.com/extensions/management#toc
- */
+// https://developer.chrome.com/extensions/management#toc
 
-import dechromeify from './dechromeify';
-
-export var getExtensionInfo = dechromeify(chrome.management, 'getSelf');
+import { dechromeifyAll } from './dechromeify';
+export default dechromeifyAll(chrome.management);

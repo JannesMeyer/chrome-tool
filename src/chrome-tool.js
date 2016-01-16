@@ -1,25 +1,31 @@
-import * as BrowserAction from './browser-action';
-import * as Commands from './commands';
-import * as Runtime from './runtime';
-import * as Tabs from './tabs';
-import * as Windows from './windows';
-
-import ContextMenuItem from './ContextMenuItem';
-import Popup from './Popup';
-import Preferences from './Preferences';
+import BrowserAction from './BrowserAction';
+import Management from './Management';
+import Runtime from './Runtime';
+import SyncStorage from './SyncStorage';
+import Tabs from './Tabs';
+import Windows from './Windows';
 
 export {
   BrowserAction,
-  Commands,
+  Management,
   Runtime,
+  SyncStorage,
   Tabs,
-  Windows,
-
-  ContextMenuItem,
-  Popup,
-  Preferences
+  Windows
 };
 
-export { getString } from './i18n';
-export { onCommand } from './commands';
-export { getURL, sendMessage, onMessage } from './runtime';
+/**
+ * Returns a translated string
+ * https://developer.chrome.com/extensions/i18n#toc
+ */
+export function getString(name, substitution) {
+  if (substitution == null) {
+    return chrome.i18n.getMessage(name);
+  }
+
+  if (typeof substitution === 'number' && substitution > 1) {
+    return chrome.i18n.getMessage(name + 's', [ substitution ]);
+  } else {
+    return chrome.i18n.getMessage(name, [ substitution ]);
+  }
+}

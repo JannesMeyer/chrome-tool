@@ -1,4 +1,4 @@
-import * as Storage from './storage-sync';
+import Storage from './SyncStorage';
 
 export default class Preferences {
 

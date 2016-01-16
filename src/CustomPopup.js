@@ -1,5 +1,5 @@
-import * as Runtime from './runtime';
-import * as Windows from './windows';
+import Runtime from './Runtime';
+import Windows from './Windows';
 
 /**
  * Opens a popup. At the moment only one at a time is supported.
