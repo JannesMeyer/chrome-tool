@@ -10,9 +10,7 @@ Compatible with Chrome 45 and higher. For older versions you might need to polyf
 - Promise
 - Map
 
-Installation:
-
-	npm install chrome-tool --save
+[![npm](https://nodei.co/npm/chrome-tool.png?compact=true)](https://www.npmjs.com/package/chrome-tool)
 
 ## Tabs
 
