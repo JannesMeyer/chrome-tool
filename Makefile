@@ -2,19 +2,18 @@ BABEL = ./node_modules/.bin/babel
 
 .PHONY: all
 all: node_modules
-	@$(BABEL) src --out-dir .
+	@$(BABEL) . --out-dir . --ignore "node_modules" --extensions ".es6"
 
 .PHONY: watch
 watch: node_modules
-	@$(BABEL) src --out-dir . --watch
+	@$(BABEL) . -w --out-dir . --ignore "node_modules" --extensions ".es6"
 
 .PHONY: clean
 clean:
-	-rm *.js
-	-rm *.log
+	-rm -f *.log *.js ./spec/*.js
 
 node_modules:
 	npm install
 
-%.js:: src/%.js
+%.js:: %.es6
 	$(BABEL) $< --out-file $@
