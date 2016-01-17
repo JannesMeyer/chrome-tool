@@ -2,9 +2,7 @@
   "name": "chrome-tool",
   "version": "3.0.0",
   "description": "Useful functions for creating Chrome apps and extensions",
-  "keywords": [
-    "chrome"
-  ],
+  "keywords": ["chrome"],
   "author": "Jannes Meyer <jannes.meyer@gmail.com>",
   "license": "GPL-3.0",
   "repository": "JannesMeyer/chrome-tool",

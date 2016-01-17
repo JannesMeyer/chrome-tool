@@ -10,6 +10,10 @@ Compatible with Chrome 45 and higher. For older versions you might need to polyf
 - Promise
 - Map
 
+Installation:
+
+	npm install chrome-tool --save
+
 ## Tabs
 
 ```js
