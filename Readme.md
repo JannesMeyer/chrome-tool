@@ -223,7 +223,7 @@ item.setVisible(visibility: boolean);
 
 Download source and compile:
 
-	git clone git@github.com:JannesMeyer/chrome-tool.git
+	git clone git@github.com:[USERNAME]/chrome-tool.git
 	make
 
 Watch for changes and recompile:
@@ -233,4 +233,3 @@ Watch for changes and recompile:
 Run tests:
 
 	npm test
-
