@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Dechromeify', () => {
 
   var BrowserAction;
@@ -16,8 +14,8 @@ describe('Dechromeify', () => {
   });
 
   it('calls through to sync functions', () => {
-    BrowserAction.setBadgeText({ text: 'test' });
-    expect(chrome.browserAction.setBadgeText).toHaveBeenCalledWith({ text: 'test' });
+    BrowserAction.setBadgeText({ text: 'foo' });
+    expect(chrome.browserAction.setBadgeText).toHaveBeenCalledWith({ text: 'foo' });
   });
 
   it('calls through to async functions', (done) => {

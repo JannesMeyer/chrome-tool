@@ -1,5 +1,3 @@
-'use strict';
-
 describe('chrome-tool', () => {
 
   var chrometool;
