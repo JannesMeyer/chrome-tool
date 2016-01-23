@@ -1,13 +1,17 @@
-// https://developer.chrome.com/extensions/contextMenus#toc
-
+/**
+ * ContextMenuItem that can appear in various places in the browser.
+ * 
+ * Documentation:
+ * https://developer.chrome.com/extensions/contextMenus#toc
+ */
 export default class ContextMenuItem {
 
+  props: chrome.contextMenus.CreateProperties;
+
   /**
-   * Create a context menu item for this extension.
-   *
-   * @param props { id, contexts, onclick, title }
+   * Instantiate a context menu item (but don't show it yet)
    */
-  constructor(props) {
+  constructor(props: chrome.contextMenus.CreateProperties) {
     this.props = Object.assign({}, props);
   }
 
