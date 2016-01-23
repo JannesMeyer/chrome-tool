@@ -2,11 +2,11 @@ BABEL = ./node_modules/.bin/babel
 
 .PHONY: all
 all: node_modules
-	@$(BABEL) . --out-dir . --ignore "node_modules" --extensions ".ts"
+	@$(BABEL) . --out-dir . --ignore "node_modules","*.d.ts" --extensions ".ts"
 
 .PHONY: watch
 watch: node_modules
-	@$(BABEL) . -w --out-dir . --ignore "node_modules" --extensions ".ts"
+	@$(BABEL) . -w --out-dir . --ignore "node_modules","*.d.ts" --extensions ".ts"
 
 .PHONY: clean
 clean:
