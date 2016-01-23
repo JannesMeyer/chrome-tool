@@ -4,5 +4,7 @@
         "**/.git": true,
         "**/.DS_Store": true,
         "**/*.js": true
-    }
+    },
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
 }
