@@ -1,4 +1,4 @@
-import Tabs from './Tindows';
+import Tabs from './Tabs';
 import Windows from './Windows';
 
 var isOpera = (navigator.vendor.indexOf('Opera') !== -1);
