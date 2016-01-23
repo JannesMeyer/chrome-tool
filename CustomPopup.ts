@@ -1,34 +1,43 @@
 import Runtime from './Runtime';
 import Windows from './Windows';
 
+interface IPopupArguments {
+  url: string;
+  params: string;
+  width: number;
+  height: number;
+  parent: {
+    width: number;
+    height: number;
+    left: number;
+    top: number;
+  }
+}
+
 /**
- * Opens a popup. At the moment only one at a time is supported.
+ * Opens a popup. Only one instance at a time is supported.
  */
 export default class Popup {
 
-  constructor({ url, params, width, height, parent }) {
-    this.deferred = Promise.defer();
-    this.options = {
+  promise: Promise<any>;
+  
+  constructor({ url, params, width, height, parent }: IPopupArguments) {
+    // Listen for the closing of the popup
+    this.promise = new Promise((resolve, reject) => {
+      Runtime.onMessage('popup_close', data => {
+        Runtime.onMessage('popup_close', null);
+        resolve(data);
+      });
+    });
+
+    Windows.create({
       type: 'popup',
-      url: Runtime.getURL(url),
+      url: Runtime.getURL(url) + (params || ''),
       left: Math.round(parent.left + (parent.width - width) / 2),
       top: Math.round(parent.top + (parent.height - height) / 3),
       width,
-      height
-    }
-    if (params) {
-      this.options.url += params;
-    }
-
-    // Register/overwrite return handler
-    Runtime.onMessage('popup_close', msg => {
-      this.deferred.resolve(msg);
+      height,
     });
-  }
-
-  show() {
-    Windows.create(this.options);
-    return this.deferred.promise;
   }
 
 }

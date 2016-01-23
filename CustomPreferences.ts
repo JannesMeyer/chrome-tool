@@ -2,6 +2,8 @@ import Storage from './SyncStorage';
 
 export default class Preferences {
 
+  defaults: any;
+
   constructor(defaults) {
     this.defaults = defaults;
   }
