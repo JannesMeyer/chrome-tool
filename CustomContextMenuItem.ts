@@ -1,5 +1,5 @@
 /**
- * ContextMenuItem that can appear in various places in the browser.
+ * ContextMenuItem can appear in various places in the browser.
  * 
  * Documentation:
  * https://developer.chrome.com/extensions/contextMenus#toc
