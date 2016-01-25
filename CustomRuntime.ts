@@ -3,31 +3,28 @@ var listeners = new Map();
 /**
  * Send a message to another part of the extension
  */
-export function sendMessage(operation, message = {}) {
-  message = Object.assign(message, { _chrome_operation: operation });
+export function sendMessage(operation: string, message: any = {}) {
+  // Extend message with one custom property
+  message._chrome_operation = operation;
 
-  // TODO: Replace Promise.defer() with something standardized
-  var deferred = Promise.defer();
-  function callback() {
-    var response = arguments[0]
-    if (chrome.runtime.lastError) {
-      deferred.reject(chrome.runtime.lastError);
-    } else if (response && response.error) {
-      deferred.reject(response);
-    } else {
-      deferred.resolve(response);
-    }
-  }
-
-  // Send message and return...
-  chrome.runtime.sendMessage(message, callback);
-  return deferred.promise;
+  return new Promise((resolve, reject) => {
+    // Send message and look at response.error
+    chrome.runtime.sendMessage(message, response => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else if (response && response.error) {
+        reject(response);
+      } else {
+        resolve(response);
+      }
+    });
+  });
 }
 
 /**
  * Collective listener
  */
-function globalHandler(message, sender, sendResponse) {
+function globalHandler(message: any, sender: chrome.runtime.MessageSender, sendResponse: Function) {
   var listener = listeners.get(message._chrome_operation);
   if (listener) {
     listener(message, sender, sendResponse);
@@ -39,7 +36,7 @@ function globalHandler(message, sender, sendResponse) {
  * To un-listen, just do this:
  *   onMessage('operation name', null)
  */
-export function onMessage(operation, handler) {
+export function onMessage(operation: string, handler: Function) {
   if (listeners.size === 0) {
     chrome.runtime.onMessage.addListener(globalHandler);
   }
